@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/22 23:20:49 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/22 23:31:27 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <string.h>
 
 //--------------------------------------------------
-// RE_DEF
+// RE_DEFINITION
 //--------------------------------------------------
 
 typedef pthread_mutex_t	t_mutex;
@@ -55,14 +55,11 @@ typedef enum s_mutex_code
 	DESTROY
 }	t_mutex_code;
 
-
 typedef enum s_thread_code
 {
 	CREATE,
 	JOIN
 }	t_thead_code;
-
-
 
 typedef struct s_philo
 {
@@ -113,17 +110,17 @@ void	philo_msg(t_philo *philo, t_philo_status status);
 //--------------------------------------------------
 
 int		ft_init(int ac, char **av, t_program *prog);
+
 int		ft_mutexes_clean(t_program *prog);
 int		ft_philos_clean(t_program *prog);
 int		ft_clean(t_program *prog, t_clean_code code);
+
 int		ft_free(t_program *prog);
 
 //--------------------------------------------------
 // THREAD AND MUTEX
 //--------------------------------------------------
 
-
-int		ft_mutexes_init(t_program *prog);
 int		ft_mutex(t_mutex *mutex, t_mutex_code code);
 int		ft_thread(
 			t_thread *thread,
@@ -135,7 +132,7 @@ int		ft_thread(
 // MAIN PROGRAM
 //--------------------------------------------------
 
-int	ft_arg_check(int ac, char **av);
-int	philosopher(t_program *prog);
+int		ft_arg_check(int ac, char **av);
+int		philosopher(t_program *prog);
 
 #endif

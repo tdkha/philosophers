@@ -6,13 +6,13 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:08:25 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/22 23:22:36 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/22 23:30:28 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-int	ft_philos_init(t_program *prog)
+static int	ft_philos_init(t_program *prog)
 {
 	int	i;
 
@@ -33,7 +33,7 @@ int	ft_philos_init(t_program *prog)
 	return (1);
 }
 
-int	ft_mutexes_init(t_program *prog)
+static int	ft_mutexes_init(t_program *prog)
 {
 	int	i;
 
