@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:08:25 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/22 18:55:43 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/22 23:22:36 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,37 @@ int	ft_philos_init(t_program *prog)
 		prog->philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		if (!prog->philos[i])
 		{
+			ft_clean(prog, PHILO);
 			return (error_msg_ret("Failed to malloc type (t_philo *)\n", 0));
 		}
         memset(prog->philos[i], 0, sizeof(t_philo));
         prog->philos[i]->id = i;
         prog->philos[i]->prog = prog;
 		i++;
+	}
+	return (1);
+}
+
+int	ft_mutexes_init(t_program *prog)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_mutex(&prog->mt_lock_meal, INIT))
+		return (0);
+	if (!ft_mutex(&prog->mt_lock_print, INIT))
+	{
+		ft_mutex(&prog->mt_lock_meal, DESTROY);
+		return (0);
+	}
+	while (i < prog->philo_count)
+	{
+		if (!ft_mutex(&prog->mt_forks[i], INIT))
+		{
+			ft_clean(prog, MUTEX);
+			return (error_msg_ret("Failed to init type (t_mutex *)", 0));
+		}
+		++i;
 	}
 	return (1);
 }

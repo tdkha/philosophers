@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:49:06 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/22 18:05:05 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/22 23:01:51 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	error_msg_ret(char *str, int return_val)
 	return (return_val);
 }
 
-void	philo_msg(t_philo *philo, t_status status)
+void	philo_msg(t_philo *philo, t_philo_status status)
 {
 	if (status == FORK)
 	{

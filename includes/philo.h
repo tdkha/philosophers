@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/22 18:38:43 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/22 23:20:49 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,21 @@ typedef pthread_t		t_thread;
 // STRUCT
 //--------------------------------------------------
 
-typedef enum s_status
+typedef enum s_clean_code
+{
+	ALL,
+	PHILO,
+	MUTEX
+}	t_clean_code;
+
+typedef enum s_philo_status
 {
 	FORK,
 	EAT,
 	SLEEP,
 	THINK,
 	DIE
-}	t_status;
+}	t_philo_status;
 
 typedef enum s_mutex_code
 {
@@ -48,18 +55,21 @@ typedef enum s_mutex_code
 	DESTROY
 }	t_mutex_code;
 
+
 typedef enum s_thread_code
 {
 	CREATE,
 	JOIN
 }	t_thead_code;
 
+
+
 typedef struct s_philo
 {
 	int					id;
 	long				last_meal;
 	long				meal_eaten;
-	t_status			status;
+	t_philo_status			status;
 	t_thread			pth;
 	struct s_program	*prog;
 }	t_philo;
@@ -96,13 +106,23 @@ void	*ft_calloc(size_t count, size_t size);
 
 void	error_msg(char *str);
 int		error_msg_ret(char *str, int return_val);
-void	philo_msg(t_philo *philo, t_status status);
+void	philo_msg(t_philo *philo, t_philo_status status);
+
+//--------------------------------------------------
+// PROGRAM UTILS
+//--------------------------------------------------
+
+int		ft_init(int ac, char **av, t_program *prog);
+int		ft_mutexes_clean(t_program *prog);
+int		ft_philos_clean(t_program *prog);
+int		ft_clean(t_program *prog, t_clean_code code);
+int		ft_free(t_program *prog);
 
 //--------------------------------------------------
 // THREAD AND MUTEX
 //--------------------------------------------------
 
-int		ft_mutexes_clean(t_program *prog, int index);
+
 int		ft_mutexes_init(t_program *prog);
 int		ft_mutex(t_mutex *mutex, t_mutex_code code);
 int		ft_thread(
@@ -114,8 +134,8 @@ int		ft_thread(
 //--------------------------------------------------
 // MAIN PROGRAM
 //--------------------------------------------------
+
 int	ft_arg_check(int ac, char **av);
-int	ft_init(int ac, char **av, t_program *prog);
-int	ft_free(t_program *prog);
 int	philosopher(t_program *prog);
+
 #endif
