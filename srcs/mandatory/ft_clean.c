@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 22:59:31 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/22 23:18:11 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/24 10:34:48 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,39 @@ int	ft_mutexes_clean(t_program *prog)
 	{
 		while (i < prog->philo_count)
 		{
-			ft_mutex(&prog->mt_forks[i], DESTROY);
+			ft_mutex(&prog->mt_forks[i], DESTROY, prog);
 			i++;
 		}
 		free(prog->mt_forks);
 		prog->mt_forks = NULL;
 	}
-	ft_mutex(&prog->mt_lock_print, DESTROY);
-	ft_mutex(&prog->mt_lock_meal, DESTROY);
+	ft_mutex(&prog->mt_lock_print, DESTROY, prog);
+	ft_mutex(&prog->mt_lock_meal, DESTROY, prog);
 	return (1);
 }
 
 int	ft_philos_clean(t_program *prog)
+{
+	int	i;
+
+	i = 0;
+	if (prog->philos)
+	{
+		while (i < prog->philo_count)
+		{
+			if (!prog->philos[i])
+				break ;
+			free(prog->philos[i]);
+			prog->philos[i] = NULL;
+			i++;
+		}
+		free(prog->philos);
+		prog->philos = NULL;
+	}
+	return (1);
+}
+
+int	ft_philos_clean_destroy(t_program *prog)
 {
 	int	i;
 

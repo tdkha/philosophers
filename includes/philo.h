@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/22 23:31:27 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/24 10:34:18 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
+# include <sys/time.h>
 
 //--------------------------------------------------
 // RE_DEFINITION
@@ -64,7 +65,7 @@ typedef enum s_thread_code
 typedef struct s_philo
 {
 	int					id;
-	long				last_meal;
+	size_t				last_meal_ms;
 	long				meal_eaten;
 	t_philo_status			status;
 	t_thread			pth;
@@ -81,10 +82,10 @@ typedef struct s_program
 	long		time_sleep;
 	t_mutex		mt_lock_meal;
 	t_mutex		mt_lock_print;
+	t_mutex		mt_lock_dead;
 	t_mutex		*mt_forks;
 	t_philo		**philos;
-	t_thread	*monitor;
-	int			error;
+	t_thread	*pth_monitor;
 }	t_program;
 
 //--------------------------------------------------
@@ -101,8 +102,9 @@ void	*ft_calloc(size_t count, size_t size);
 // PRINT MESSAGE
 //--------------------------------------------------
 
-void	error_msg(char *str);
-int		error_msg_ret(char *str, int return_val);
+void	error_msg(t_program *prog, char *str);
+int		error_msg_ret(t_program *prog, char *str, int return_val);
+
 void	philo_msg(t_philo *philo, t_philo_status status);
 
 //--------------------------------------------------
@@ -121,7 +123,10 @@ int		ft_free(t_program *prog);
 // THREAD AND MUTEX
 //--------------------------------------------------
 
-int		ft_mutex(t_mutex *mutex, t_mutex_code code);
+int		ft_mutex(
+			t_mutex *mutex,
+			t_mutex_code code,
+			t_program *prog);
 int		ft_thread(
 			t_thread *thread,
 			void *(*func)(void *),

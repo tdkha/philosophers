@@ -6,31 +6,36 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:49:06 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/22 23:01:51 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/24 10:39:46 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-void	error_msg(char *str)
+void	error_msg(t_program *prog, char *str)
 {
 	int	len;
 
+	ft_mutex(&prog->mt_lock_print, LOCK, prog);
 	len = (int) ft_strlen(str);
+	ft_mutex(&prog->mt_lock_print, LOCK, prog);
 	write(2, str, len);
 }
 
-int	error_msg_ret(char *str, int return_val)
+int	error_msg_ret(t_program *prog, char *str, int return_val)
 {
 	int	len;
 
+	ft_mutex(&prog->mt_lock_print, LOCK, prog);
 	len = (int) ft_strlen(str);
 	write(2, str, len);
+	ft_mutex(&prog->mt_lock_print, LOCK, prog);
 	return (return_val);
 }
 
 void	philo_msg(t_philo *philo, t_philo_status status)
 {
+	ft_mutex(&philo->prog->mt_lock_print, LOCK, philo->prog);
 	if (status == FORK)
 	{
 		printf("%d has taken a fork\n", philo->id);
@@ -47,8 +52,9 @@ void	philo_msg(t_philo *philo, t_philo_status status)
 	{
 		printf("%d is sleeping\n", philo->id);
 	}
-	else if (status == DIE)
-	{
-		printf("%d died\n", philo->id);
-	}
+	// else if (status == DIE)
+	// {
+	// 	printf("%d died\n", philo->id);
+	// }
+	ft_mutex(&philo->prog->mt_lock_print, UNLOCK, philo->prog);
 }

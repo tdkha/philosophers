@@ -6,7 +6,7 @@
 #    By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 12:22:18 by ktieu             #+#    #+#              #
-#    Updated: 2024/07/22 23:09:05 by ktieu            ###   ########.fr        #
+#    Updated: 2024/07/24 10:17:14 by ktieu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC_FILES		=	$(SRC_DIR)/libft.c \
 					$(SRC_DIR)/ft_init.c \
 					$(SRC_DIR)/ft_clean.c \
 					$(SRC_DIR)/ft_free.c \
+					$(SRC_DIR)/monitor.c \
 					$(SRC_DIR)/philosopher.c \
 					$(SRC_DIR)/main.c
 
@@ -39,6 +40,7 @@ BONUS_FILES		=	$(BONUS_DIR)/libft.c \
 					$(BONUS_DIR)/ft_init.c \
 					$(BONUS_DIR)/ft_clean.c \
 					$(BONUS_DIR)/ft_free.c \
+					$(SRC_DIR)/monitor.c \
 					$(BONUS_DIR)/philosopher.c \
 					$(BONUS_DIR)/main.c
 

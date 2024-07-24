@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 22:30:32 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/22 18:07:50 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/24 10:33:02 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 int	ft_thread(
 	t_thread *thread,
 	void *(*func)(void *),
-	void *arg,
+	void *prog,
 	t_thead_code code)
 {
 	int	error;
 
 	error = 0;
 	if (code == CREATE)
-		error = pthread_create(thread, NULL, func, arg);
+		error = pthread_create(thread, NULL, func, prog);
 	else if (code == JOIN)
 		error = pthread_join(*thread, NULL);
 	else
@@ -30,13 +30,9 @@ int	ft_thread(
 	if (error != 0)
 	{
 		if (code == CREATE)
-		{
-			error_msg("Error occured when calling <pthread_create>\n");
-		}
+			error_msg(prog, "Error occured when calling <pthread_create>\n");
 		else if (code == JOIN)
-		{
-			error_msg("Error occured when calling <pthread_join>\n");
-		}
+			error_msg(prog, "Error occured when calling <pthread_join>\n");
 		return (0);
 	}
 	return (1);

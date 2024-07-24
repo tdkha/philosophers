@@ -6,13 +6,13 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 22:29:55 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/22 23:24:56 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/24 10:33:58 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-int	ft_mutex(t_mutex *mutex, t_mutex_code code)
+int	ft_mutex(t_mutex *mutex, t_mutex_code code, t_program *prog)
 {
 	int	error;
 
@@ -30,13 +30,13 @@ int	ft_mutex(t_mutex *mutex, t_mutex_code code)
 	if (error != 0)
 	{
 		if (code == INIT)
-			error_msg("Error occured when calling <pthread_mutex_init>\n");
+			error_msg(prog, "Error occured when calling <pthread_mutex_init>\n");
 		else if (code == DESTROY)
-			error_msg("Error occured when calling <pthread_mutex_destroy>\n");
+			error_msg(prog, "Error occured when calling <pthread_mutex_destroy>\n");
 		else if (code == LOCK)
-			error_msg("Error occured when calling <pthread_mutex_lock>\n");
+			error_msg(prog, "Error occured when calling <pthread_mutex_lock>\n");
 		else if (code == UNLOCK)
-			error_msg("Error occured when calling <pthread_mutex_unlock>\n");
+			error_msg(prog, "Error occured when calling <pthread_mutex_unlock>\n");
 	}
 	return (1);
 }

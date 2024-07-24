@@ -1,32 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/21 12:22:53 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/24 10:38:46 by ktieu            ###   ########.fr       */
+/*   Created: 2024/07/24 10:17:01 by ktieu             #+#    #+#             */
+/*   Updated: 2024/07/24 10:39:58 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-size_t	get_current_time(t_program *prog)
+static void	check_dead(t_program *prog)
 {
-	struct timeval	time;
+	int	i;
 
-	if (gettimeofday(&time, NULL) == -1)
-		error_msg(prog, "Error occurred when calling <gettimeofday>\n");
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+	i = 0;
+	while (i < prog->philo_count)
+	{
+		ft_mutex(&prog->mt_lock_dead, LOCK, prog);
+		
+		ft_mutex(&prog->mt_lock_dead, UNLOCK, prog);
+		++i;
+	}
 }
 
-int	ft_usleep(size_t milliseconds, t_program *prog)
+static void	check_full(t_program *prog)
 {
-	size_t	start;
+	
+}
 
-	start = get_current_time(prog);
-	while ((get_current_time(prog) - start) < milliseconds)
-		usleep(500);
-	return (0);
+void	*monitor_routine(void *v_prog)
+{
+	t_program	*prog;
+
+	prog = (t_program *) v_prog;
+	while (1)
+	{
+		
+	}
+	return (v_prog);
 }
