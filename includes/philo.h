@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/24 10:34:18 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/26 07:57:45 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ typedef struct s_program
 	t_mutex		mt_lock_dead;
 	t_mutex		*mt_forks;
 	t_philo		**philos;
+	int			*activated;
+	int			odd_flag;
 	t_thread	*pth_monitor;
 }	t_program;
 
@@ -97,6 +99,14 @@ int		ft_isspace(int c);
 size_t	ft_strlen(const char *s);
 long	ft_atold(const char *str);
 void	*ft_calloc(size_t count, size_t size);
+
+//--------------------------------------------------
+// UTILS
+//--------------------------------------------------
+
+size_t	get_current_time(t_program *prog);
+
+int		ft_usleep(size_t milliseconds, t_program *prog);
 
 //--------------------------------------------------
 // PRINT MESSAGE

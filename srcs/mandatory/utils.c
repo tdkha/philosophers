@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:22:53 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/24 10:38:46 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/26 07:57:24 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,3 +30,46 @@ int	ft_usleep(size_t milliseconds, t_program *prog)
 		usleep(500);
 	return (0);
 }
+
+// void	ft_swap_num_array(t_philo **nums, int i, int j)
+// {
+// 	t_philo	*tmp;
+
+// 	tmp = nums[i];
+// 	nums[i] = nums[j];
+// 	nums[j] = tmp;
+// }
+
+// static int	partition(t_philo **arr, int left, int right)
+// {
+// 	int	pivot_num;
+// 	int	i;
+// 	int	j;
+
+// 	pivot_num = arr[left]->last_meal_ms;
+// 	i = left;
+// 	j = right;
+// 	while (i <= j)
+// 	{
+// 		while (i <= j && arr[i]->last_meal_ms <= pivot_num)
+// 			i++;
+// 		while (i <= j && arr[j]->last_meal_ms >= pivot_num)
+// 			j--;
+// 		if (i < j)
+// 			ft_swap_num_array(arr, i, j);
+// 	}
+// 	ft_swap_num_array(arr, left, j);
+// 	return (j);
+// }
+
+// void	ft_quick_sort(t_philo **arr, int left, int right)
+// {
+// 	int	pivot_index;
+
+// 	if (left < right)
+// 	{
+// 		pivot_index = partition(arr, left, right);
+// 		ft_quick_sort(arr, left, pivot_index - 1);
+// 		ft_quick_sort(arr, pivot_index + 1, right);
+// 	}
+// }

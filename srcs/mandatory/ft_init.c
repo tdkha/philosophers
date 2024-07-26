@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:08:25 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/24 10:36:55 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/26 07:40:56 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	ft_philos_init(t_program *prog)
 			return (error_msg_ret(prog, "Failed to malloc type (t_philo *)\n", 0));
 		}
         memset(prog->philos[i], 0, sizeof(t_philo));
-        prog->philos[i]->id = i;
+        prog->philos[i]->id = i + 1;
         prog->philos[i]->prog = prog;
 		i++;
 	}
@@ -68,8 +68,6 @@ int	ft_init(int ac, char **av, t_program *prog)
 {
 	prog->ac = ac;
 	prog->av = av;
-	if (ac != 5 || !ft_arg_check(ac, av))
-		return (error_msg_ret(prog, "Invalid argument(s)\n", 0));
 	prog->philo_count = (int) ft_atold(av[1]);
 	prog->time_die = ft_atold(av[2]);
 	prog->time_eat = ft_atold(av[3]);
@@ -78,13 +76,15 @@ int	ft_init(int ac, char **av, t_program *prog)
 		ft_calloc((prog->philo_count + 1), sizeof(t_philo *));
 	if (!prog->philos)
 		return (error_msg_ret(prog, "Failed to malloc type (t_philo **)\n", 0));
+	prog->activated = (int *) ft_calloc((prog->philo_count), sizeof(int));
+	if (!prog->activated)
+		return (error_msg_ret(prog, "Failed to malloc type (int *)\n", 0));
 	prog->mt_forks = (t_mutex *)
 		ft_calloc(prog->philo_count, sizeof(t_mutex));
 	if (!prog->mt_forks)
 		return (error_msg_ret(prog, "Failed to malloc type (t_mutex **)\n", 0));
 	if (!ft_philos_init(prog) || !ft_mutexes_init(prog))
 	{
-		ft_free(prog);
 		return (0);
 	}
 	return (1);
