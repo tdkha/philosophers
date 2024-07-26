@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/26 07:57:45 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/26 12:01:53 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_program
 	long		time_die;
 	long		time_eat;
 	long		time_sleep;
+	long		must_eat;
 	t_mutex		mt_lock_meal;
 	t_mutex		mt_lock_print;
 	t_mutex		mt_lock_dead;

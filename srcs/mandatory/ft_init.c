@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:08:25 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/26 07:40:56 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/26 12:02:24 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	ft_init(int ac, char **av, t_program *prog)
 	prog->time_die = ft_atold(av[2]);
 	prog->time_eat = ft_atold(av[3]);
 	prog->time_sleep = ft_atold(av[4]);
+	prog->must_eat = ft_atold(av[5]);
 	prog->philos = (t_philo **)
 		ft_calloc((prog->philo_count + 1), sizeof(t_philo *));
 	if (!prog->philos)
