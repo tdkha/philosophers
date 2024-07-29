@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:22:53 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/26 07:57:24 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/27 15:36:05 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,22 @@ int	ft_usleep(size_t milliseconds, t_program *prog)
 	while ((get_current_time(prog) - start) < milliseconds)
 		usleep(500);
 	return (0);
+}
+
+int	ft_min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	else
+		return (b);
+}
+
+int	ft_max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	else
+		return (b);
 }
 
 // void	ft_swap_num_array(t_philo **nums, int i, int j)

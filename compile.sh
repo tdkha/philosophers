@@ -1,6 +1,8 @@
 #!/bin/bash
 
-make fclean --quiet
-make --quiet
+make fclean
+make
 
-valgrind  --track-origins=yes ./philo 4 420 42 24
+clear
+
+valgrind  --leak-check=full --track-origins=yes ./philo 2 800 200 200 2

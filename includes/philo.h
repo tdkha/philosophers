@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/26 12:01:53 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/29 01:32:15 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ typedef enum s_clean_code
 
 typedef enum s_philo_status
 {
-	FORK,
+	FORK_UP_L,
+	FORK_UP_R,
+	FORK_DOWN_L,
+	FORK_DOWN_R,
 	EAT,
 	SLEEP,
 	THINK,
@@ -66,8 +69,9 @@ typedef struct s_philo
 {
 	int					id;
 	size_t				last_meal_ms;
+	size_t				start_ms;
 	long				meal_eaten;
-	t_philo_status			status;
+	t_philo_status		status;
 	t_thread			pth;
 	struct s_program	*prog;
 }	t_philo;
@@ -77,9 +81,9 @@ typedef struct s_program
 	int			ac;
 	char		**av;
 	int			philo_count;
-	long		time_die;
-	long		time_eat;
-	long		time_sleep;
+	size_t		time_die;
+	size_t		time_eat;
+	size_t		time_sleep;
 	long		must_eat;
 	t_mutex		mt_lock_meal;
 	t_mutex		mt_lock_print;
@@ -88,7 +92,8 @@ typedef struct s_program
 	t_philo		**philos;
 	int			*activated;
 	int			odd_flag;
-	t_thread	*pth_monitor;
+	t_thread	pth_monitor;
+	int			terminate;
 }	t_program;
 
 //--------------------------------------------------
@@ -108,6 +113,8 @@ void	*ft_calloc(size_t count, size_t size);
 size_t	get_current_time(t_program *prog);
 
 int		ft_usleep(size_t milliseconds, t_program *prog);
+int		ft_min(int a, int b);
+int		ft_max(int a, int b);
 
 //--------------------------------------------------
 // PRINT MESSAGE
@@ -143,7 +150,8 @@ int		ft_thread(
 			void *(*func)(void *),
 			void *arg,
 			t_thead_code code);
-
+			
+void	*monitor_routine(void *v_prog);
 //--------------------------------------------------
 // MAIN PROGRAM
 //--------------------------------------------------

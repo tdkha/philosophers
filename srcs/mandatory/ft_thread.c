@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 22:30:32 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/24 10:33:02 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/29 01:18:59 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,15 @@ int	ft_thread(
 
 	error = 0;
 	if (code == CREATE)
+	{
+		printf("Creating thread...\n");
 		error = pthread_create(thread, NULL, func, prog);
+	}
 	else if (code == JOIN)
+	{
+		printf("Joining thread...\n");
 		error = pthread_join(*thread, NULL);
+	}
 	else
 		return (0);
 	if (error != 0)

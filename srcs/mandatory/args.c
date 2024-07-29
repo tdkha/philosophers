@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:17:44 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/22 18:22:27 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/28 23:49:39 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static inline int	generic_check(
 	return (0);
 }
 
-inline int	ft_arg_check(int ac, char **av)
+int	ft_arg_check(int ac, char **av)
 {
 	int	i;
 
