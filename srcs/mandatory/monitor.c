@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 10:17:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/30 11:25:14 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/31 12:05:13 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ static int	check_dead(t_program *prog)
 		{
 			philo_msg(philo, DIE);
 			pthread_mutex_lock(&prog->mt_lock_dead);
-			while (i-- > 0)
-			{
-				prog->philos[i]->dead = 1;
-			}
+			philo->dead = 1;
 			pthread_mutex_unlock(&prog->mt_lock_dead);
 			return (1);
 		}
@@ -49,29 +46,28 @@ static int	check_dead(t_program *prog)
 
 static int	check_full(t_program *prog)
 {
-	int	i;
-	int	finished;
+	int		i;
+	t_philo	*philo;
 
 	i = 0;
-	finished = 0;
 	if (prog->must_eat == -1)
 		return (0);
 	while (i < prog->philo_count)
 	{
-		ft_mutex(&prog->mt_lock_dead, LOCK, prog);
-		if (prog->philos[i]->meal_eaten >= prog->must_eat)
-			++finished;
-		ft_mutex(&prog->mt_lock_dead, UNLOCK, prog);
+		philo = prog->philos[i];
+		ft_mutex(&prog->mt_lock_meal, LOCK, prog);
+		if (philo->meal_eaten < prog->must_eat)
+		{
+			ft_mutex(&prog->mt_lock_meal, UNLOCK, prog);
+			return (0);
+		}
+		ft_mutex(&prog->mt_lock_meal, UNLOCK, prog);
 		++i;
 	}
-	if (finished == prog->philo_count)
-	{
-		ft_mutex(&prog->mt_lock_meal, LOCK, prog);
-		prog->philos[0]->dead = 1;
-		ft_mutex(&prog->mt_lock_meal, UNLOCK, prog);
-		return (1);
-	}
-	return (0);
+	ft_mutex(&prog->mt_lock_dead, LOCK, prog);
+	prog->philos[0]->dead = 1;
+	ft_mutex(&prog->mt_lock_dead, UNLOCK, prog);
+	return (1);
 }
 
 void	*monitor_routine(void *v_prog)

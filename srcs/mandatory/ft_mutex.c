@@ -22,7 +22,7 @@ int	ft_mutex(t_mutex *mutex, t_mutex_code code, t_program *prog)
 	else if (code == DESTROY)
 		error = pthread_mutex_destroy(mutex);
 	else if (code == LOCK)
-		error = pthread_mutex_lock(mutex);
+		error = pthread_mutex_lock(mutex)	;
 	else if (code == UNLOCK)
 		error = pthread_mutex_unlock(mutex);
 	else

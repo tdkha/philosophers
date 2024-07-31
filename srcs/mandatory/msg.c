@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:49:06 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/30 10:33:58 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/07/31 12:43:50 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	philo_msg(t_philo *philo, t_philo_status status)
 		return ;
 	if (status == FORK_UP_L || status == FORK_UP_R)
 		printf("%zu %d has taken a fork\n", time, philo->id);
+	else if (status == FORK_DOWN_L || status == FORK_DOWN_R)
+		printf("%zu %d has released a fork\n", time, philo->id);
 	else if (status == EAT)
 		printf("%zu %d is eating\n", time, philo->id);
 	else if (status == THINK)
