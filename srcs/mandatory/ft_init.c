@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:08:25 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/01 23:01:28 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/02 13:18:00 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,15 @@ static int	ft_philos_init(t_program *prog)
 	{
 		prog->philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		if (!prog->philos[i])
-			return (error_msg_ret(prog, "Failed to malloc type (t_philo *)\n", 0));
+			return (error_msg_ret("Failed to malloc type (t_philo *)\n", &prog->mt_lock_print ,0));
 		memset(prog->philos[i], 0, sizeof(t_philo));
 		prog->philos[i]->id = i;
 		prog->philos[i]->mt_lock_dead = &prog->mt_lock_dead;
 		prog->philos[i]->mt_lock_meal = &prog->mt_lock_meal;
 		prog->philos[i]->mt_lock_print = &prog->mt_lock_print;
-		prog->philos[i]->start_ms = get_current_time(prog);
+		prog->philos[i]->start_ms = get_current_time(&prog->mt_lock_print);
 		prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
+		prog->philos[i]->time_die = prog->time_die;
 		nth = ft_min(i, (i + 1) % prog->philo_count);
 		prog->philos[i]->left_fork = &prog->mt_forks[nth];
 		nth = ft_max(i, (i + 1) % prog->philo_count);
@@ -64,12 +65,12 @@ static int	ft_mutexes_init(t_program *prog)
 		|| pthread_mutex_init(&prog->mt_lock_print, NULL)
 		|| pthread_mutex_init(&prog->mt_lock_dead, NULL))
 	{
-		return (error_msg_ret(prog, "Failed to init mutex\n", 0));
+		return (error_msg_ret("Failed to init mutex\n", &prog->mt_lock_print ,0));
 	}
 	while (i < prog->philo_count)
 	{
 		if (pthread_mutex_init(&prog->mt_forks[i], NULL))
-			return (error_msg_ret(prog, "Failed to init mutex\n", 0));
+			return (error_msg_ret("Failed to init mutex\n", &prog->mt_lock_print ,0));
 		++i;
 	}
 	return (1);
@@ -86,15 +87,23 @@ int	ft_init(int ac, char **av, t_program *prog)
 	prog->time_sleep = ft_atold(av[4]);
 	if (ac == 6)
 		prog->must_eat = ft_atold(av[5]);
-	prog->philos = (t_philo **)
-		ft_calloc((prog->philo_count + 1), sizeof(t_philo *));
-	if (!prog->philos)
-		return (error_msg_ret(prog, "Failed to malloc type (t_philo **)\n", 0));
+	//------------------------------
+	// INIT MUTECES;
+	//------------------------------
 	prog->mt_forks = (t_mutex *)
 		ft_calloc(prog->philo_count + 1, sizeof(t_mutex));
 	if (!prog->mt_forks)
-		return (error_msg_ret(prog, "Failed to malloc type (t_mutex **)\n", 0));
-	if (!ft_mutexes_init(prog) || !!ft_philos_init(prog))
+		return (0);
+	if (!ft_mutexes_init(prog))
+		return (0);
+	//------------------------------
+	// INIT PHILOS;
+	//------------------------------
+	prog->philos = (t_philo **)
+		ft_calloc((prog->philo_count + 1), sizeof(t_philo *));
+	if (!prog->philos)
+		return (0);
+	if (!ft_philos_init(prog))
 		return (0);
 	return (1);
 }

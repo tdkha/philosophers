@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:23:47 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/01 22:34:48 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/02 13:06:32 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,5 @@ int	ft_free(t_program *prog)
 {
 	ft_mutexes_clean(prog);
 	ft_philos_clean(prog);
-	free(prog->activated);
 	return (1);
 }

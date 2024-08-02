@@ -6,7 +6,7 @@
 #    By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 12:22:18 by ktieu             #+#    #+#              #
-#    Updated: 2024/08/01 22:58:19 by ktieu            ###   ########.fr        #
+#    Updated: 2024/08/02 13:18:18 by ktieu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,14 +21,8 @@ SRC_FILES		=	$(SRC_DIR)/libft.c \
 					$(SRC_DIR)/utils.c \
 					$(SRC_DIR)/msg.c \
 					$(SRC_DIR)/args.c \
-					$(SRC_DIR)/ft_thread.c \
-					$(SRC_DIR)/ft_mutex.c \
 					$(SRC_DIR)/ft_init.c \
-					$(SRC_DIR)/ft_clean.c \
 					$(SRC_DIR)/ft_free.c \
-					$(SRC_DIR)/philosopher.c \
-					$(SRC_DIR)/monitor.c \
-					$(SRC_DIR)/simulation.c \
 					$(SRC_DIR)/main.c
 
 BONUS_DIR		=	./srcs/bonus
@@ -36,13 +30,8 @@ BONUS_FILES		=	$(BONUS_DIR)/libft.c \
 					$(BONUS_DIR)/utils.c \
 					$(BONUS_DIR)/msg.c \
 					$(BONUS_DIR)/args.c \
-					$(BONUS_DIR)/ft_thread.c \
-					$(BONUS_DIR)/ft_mutex.c \
 					$(BONUS_DIR)/ft_init.c \
-					$(BONUS_DIR)/ft_clean.c \
 					$(BONUS_DIR)/ft_free.c \
-					$(SRC_DIR)/monitor.c \
-					$(BONUS_DIR)/philosopher.c \
 					$(BONUS_DIR)/main.c
 
 OBJ_DIR			=	obj

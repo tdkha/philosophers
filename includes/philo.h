@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/01 23:01:22 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/02 13:14:59 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_philo
 	int					meal_eaten;
 	size_t				last_meal_ms;
 	size_t				start_ms;
+	size_t				time_die;
 	t_thread			pth;
 	t_mutex				*left_fork;
 	t_mutex				*right_fork;
@@ -92,8 +93,8 @@ void	*ft_calloc(size_t count, size_t size);
 // UTILS
 //--------------------------------------------------
 
-size_t	get_current_time(t_program *prog);
-int		ft_usleep(size_t milliseconds, t_program *prog);
+size_t	get_current_time(t_mutex *mt_lock_print);
+int		ft_usleep(size_t milliseconds, t_mutex *mt_lock_print);
 int		ft_min(int a, int b);
 int		ft_max(int a, int b);
 
@@ -101,8 +102,8 @@ int		ft_max(int a, int b);
 // PRINT MESSAGE
 //--------------------------------------------------
 
-void	error_msg(t_program *prog, char *str);
-int		error_msg_ret(t_program *prog, char *str, int return_val);
+void	error_msg(char *str, t_mutex *mt_lock_print);
+int		error_msg_ret(char *str, t_mutex *mt_lock_print, int return_val);
 void	philo_msg(t_philo *philo, t_philo_status status);
 
 //--------------------------------------------------
@@ -117,12 +118,10 @@ int		ft_free(t_program *prog);
 //--------------------------------------------------
 
 void	*monitor(void *v_prog);
-void	*philosopher(void * v_philo);
 //--------------------------------------------------
 // MAIN PROGRAM
 //--------------------------------------------------
 
 int		ft_arg_check(int ac, char **av);
-int		philosopher(t_program *prog);
 
 #endif
