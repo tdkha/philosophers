@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:49:06 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/02 13:16:11 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/02 13:45:15 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static int	dead_not_print(t_philo *philo, size_t time) {
 	return (0);
 }
 
-void	philo_msg(t_philo *philo, t_philo_status status) {
+void	philo_msg(t_philo *philo, t_philo_status status)
+{
 	size_t	time;
 
 	time = get_current_time(philo->mt_lock_print) - philo->start_ms;

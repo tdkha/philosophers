@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:08:25 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/02 13:18:00 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/02 13:57:02 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,18 @@ static int	ft_philos_init(t_program *prog)
 	{
 		prog->philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		if (!prog->philos[i])
-			return (error_msg_ret("Failed to malloc type (t_philo *)\n", &prog->mt_lock_print ,0));
+			return (error_msg_ret("Failed to malloc type (t_philo *)\n", &prog->mt_lock_print, 0));
 		memset(prog->philos[i], 0, sizeof(t_philo));
 		prog->philos[i]->id = i;
+		prog->philos[i]->philo_count = prog->philo_count;
 		prog->philos[i]->mt_lock_dead = &prog->mt_lock_dead;
 		prog->philos[i]->mt_lock_meal = &prog->mt_lock_meal;
 		prog->philos[i]->mt_lock_print = &prog->mt_lock_print;
 		prog->philos[i]->start_ms = get_current_time(&prog->mt_lock_print);
 		prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
 		prog->philos[i]->time_die = prog->time_die;
+		prog->philos[i]->time_sleep = prog->time_sleep;
+		prog->philos[i]->time_eat = prog->time_eat;
 		nth = ft_min(i, (i + 1) % prog->philo_count);
 		prog->philos[i]->left_fork = &prog->mt_forks[nth];
 		nth = ft_max(i, (i + 1) % prog->philo_count);

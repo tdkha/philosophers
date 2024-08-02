@@ -6,13 +6,13 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 22:58:30 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/01 22:59:25 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/02 13:36:59 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-void	*monitor(void *v_prog)
+void	*monitor_routine(void *v_prog)
 {
 	t_program	*prog;
 

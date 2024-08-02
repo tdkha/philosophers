@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/02 13:14:59 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/02 13:55:43 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,12 @@ typedef struct s_philo
 	int					died;
 	int					eating;
 	int					meal_eaten;
+	int					philo_count;
 	size_t				last_meal_ms;
 	size_t				start_ms;
 	size_t				time_die;
+	size_t				time_sleep;
+	size_t				time_eat;
 	t_thread			pth;
 	t_mutex				*left_fork;
 	t_mutex				*right_fork;
@@ -117,7 +120,8 @@ int		ft_free(t_program *prog);
 // THREAD AND MUTEX
 //--------------------------------------------------
 
-void	*monitor(void *v_prog);
+void	*monitor_routine(void *v_prog);
+void	*philo_routine(void *v_philo);
 //--------------------------------------------------
 // MAIN PROGRAM
 //--------------------------------------------------
