@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/30 09:23:49 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/01 23:01:22 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,6 @@ typedef pthread_t		t_thread;
 // STRUCT
 //--------------------------------------------------
 
-typedef enum s_clean_code
-{
-	ALL,
-	PHILO,
-	MUTEX
-}	t_clean_code;
-
 typedef enum s_philo_status
 {
 	FORK_UP_L,
@@ -51,30 +44,20 @@ typedef enum s_philo_status
 	DIE
 }	t_philo_status;
 
-typedef enum s_mutex_code
-{
-	INIT,
-	LOCK,
-	UNLOCK,
-	DESTROY
-}	t_mutex_code;
-
-typedef enum s_thread_code
-{
-	CREATE,
-	JOIN
-}	t_thead_code;
-
 typedef struct s_philo
 {
 	int					id;
-	int					dead;
+	int					died;
 	int					eating;
-	long				meal_eaten;
+	int					meal_eaten;
 	size_t				last_meal_ms;
 	size_t				start_ms;
 	t_thread			pth;
-	struct s_program	*prog;
+	t_mutex				*left_fork;
+	t_mutex				*right_fork;
+	t_mutex				*mt_lock_meal;
+	t_mutex				*mt_lock_print;
+	t_mutex				*mt_lock_dead;
 }	t_philo;
 
 typedef struct s_program
@@ -82,16 +65,17 @@ typedef struct s_program
 	int			ac;
 	char		**av;
 	int			philo_count;
-	long		time_die;
-	long		time_eat;
-	long		time_sleep;
-	long		must_eat;
+	int			must_eat;
+	size_t		time_die;
+	size_t		time_eat;
+	size_t		time_sleep;
 	t_mutex		mt_lock_meal;
 	t_mutex		mt_lock_print;
 	t_mutex		mt_lock_dead;
 	t_mutex		*mt_forks;
 	t_philo		**philos;
 	t_thread	pth_monitor;
+	int			terminate;
 }	t_program;
 
 //--------------------------------------------------
@@ -119,40 +103,21 @@ int		ft_max(int a, int b);
 
 void	error_msg(t_program *prog, char *str);
 int		error_msg_ret(t_program *prog, char *str, int return_val);
-
 void	philo_msg(t_philo *philo, t_philo_status status);
-void 	ft_philo(
-			t_philo *philo,
-			t_program *prog,
-			t_philo_status status,
-			int nth_fork);
+
 //--------------------------------------------------
 // PROGRAM UTILS
 //--------------------------------------------------
 
 int		ft_init(int ac, char **av, t_program *prog);
-
-int		ft_mutexes_clean(t_program *prog);
-int		ft_philos_clean(t_program *prog);
-int		ft_clean(t_program *prog, t_clean_code code);
-
 int		ft_free(t_program *prog);
 
 //--------------------------------------------------
 // THREAD AND MUTEX
 //--------------------------------------------------
 
-int		ft_mutex(
-			t_mutex *mutex,
-			t_mutex_code code,
-			t_program *prog);
-int		ft_thread(
-			t_thread *thread,
-			void *(*func)(void *),
-			void *arg,
-			t_thead_code code);
-
-void	*monitor_routine(void *v_prog);
+void	*monitor(void *v_prog);
+void	*philosopher(void * v_philo);
 //--------------------------------------------------
 // MAIN PROGRAM
 //--------------------------------------------------

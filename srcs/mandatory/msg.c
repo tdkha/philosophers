@@ -6,68 +6,63 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:49:06 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/31 12:43:50 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/02 06:30:34 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-void	error_msg(t_program *prog, char *str)
+void	error_msg(char *str, t_mutex *mt_lock_print)
 {
 	int	len;
 
-	ft_mutex(&prog->mt_lock_print, LOCK, prog);
+	pthread_mutex_lock(&mt_lock_print);
 	len = (int) ft_strlen(str);
-	ft_mutex(&prog->mt_lock_print, UNLOCK, prog);
-	write(2, str, len);
+	(void)!write(2, str, len);
+	pthread_mutex_unlock(&mt_lock_print);
 }
 
-int	error_msg_ret(t_program *prog, char *str, int return_val)
+int	error_msg_ret(char *str, t_mutex *mt_lock_print, int return_val)
 {
 	int	len;
 
-	ft_mutex(&prog->mt_lock_print, LOCK, prog);
+	pthread_mutex_lock(&mt_lock_print);
 	len = (int) ft_strlen(str);
-	write(2, str, len);
-	ft_mutex(&prog->mt_lock_print, UNLOCK, prog);
+	(void)!write(2, str, len);
+	pthread_mutex_unlock(&mt_lock_print);
 	return (return_val);
 }
 
-static int	dead_not_print(t_philo *philo, size_t time)
-{
-	ft_mutex(&philo->prog->mt_lock_meal, LOCK, philo->prog);
-	if (time >= (size_t)philo->prog->time_die && philo->eating == 0)
-	{
-		ft_mutex(&philo->prog->mt_lock_meal, UNLOCK, philo->prog);
+static int	dead_not_print(t_philo *philo, size_t time) {
+	pthread_mutex_lock(&philo->prog->mt_lock_dead);
+	if (time >= (size_t)philo->prog->time_die && philo->eating == 0) {
+		pthread_mutex_unlock(&philo->prog->mt_lock_dead);
 		return (1);
 	}
-	ft_mutex(&philo->prog->mt_lock_meal, UNLOCK, philo->prog);
+	pthread_mutex_unlock(&philo->prog->mt_lock_dead);
 	return (0);
 }
 
-void	philo_msg(t_philo *philo, t_philo_status status)
-{
+void	philo_msg(t_philo *philo, t_philo_status status) {
 	size_t	time;
 
-	time = get_current_time(philo->prog) - philo->start_ms;
-	ft_mutex(&philo->prog->mt_lock_print, LOCK, philo->prog);
-	if (status == DIE)
-	{
-		printf("%zu %d died\n", time, philo->id);
-		ft_mutex(&philo->prog->mt_lock_print, UNLOCK, philo->prog);
+	time = get_current_time(philo->mt_lock_print) - philo->start_ms;
+	if (status == DIE) {
+		pthread_mutex_lock(&philo->prog->mt_lock_print);
+		printf("%zu %d died\n", time, philo->id + 1);
+		pthread_mutex_unlock(&philo->prog->mt_lock_print);
 		return ;
 	}
 	if (dead_not_print(philo, time))
 		return ;
+	pthread_mutex_lock(&philo->prog->mt_lock_print);
 	if (status == FORK_UP_L || status == FORK_UP_R)
-		printf("%zu %d has taken a fork\n", time, philo->id);
-	else if (status == FORK_DOWN_L || status == FORK_DOWN_R)
-		printf("%zu %d has released a fork\n", time, philo->id);
+		printf("%zu %d has taken a fork\n", time, philo->id + 1);
 	else if (status == EAT)
-		printf("%zu %d is eating\n", time, philo->id);
+		printf("%zu %d is eating\n", time, philo->id + 1);
 	else if (status == THINK)
-		printf("%zu %d is thinking\n", time, philo->id);
+		printf("%zu %d is thinking\n", time, philo->id + 1);
 	else if (status == SLEEP)
-		printf("%zu %d is sleeping\n", time, philo->id);
-	ft_mutex(&philo->prog->mt_lock_print, UNLOCK, philo->prog);
+		printf("%zu %d is sleeping\n", time, philo->id + 1);
+	pthread_mutex_unlock(&philo->prog->mt_lock_print);
 }

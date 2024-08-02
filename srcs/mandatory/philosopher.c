@@ -6,63 +6,36 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:22:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/31 12:42:33 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/01 23:08:40 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-static int check_self_dead(t_philo *philo)
+static int	check_dead(t_philo *philo)
 {
-	t_program	*prog;
-
-	prog = philo->prog;
-	ft_mutex(&prog->mt_lock_dead, LOCK, prog);
-	if (philo->dead)
+	pthread_mutex_lock(&philo->mt_lock_dead);
+	if (philo->died)
 	{
-		return (ft_mutex(&prog->mt_lock_dead, UNLOCK, prog));
+		pthread_mutex_unlock(&philo->mt_lock_dead);
+		return (1);
 	}
-	ft_mutex(&prog->mt_lock_dead, UNLOCK, prog);
+	pthread_mutex_unlock(&philo->mt_lock_dead);
 	return (0);
 }
 
-static void	*philo_routine(void *v_philo)
+static void	*philosophers(void *v_philo)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)v_philo;
 	if (philo->id % 2 == 0)
 		ft_usleep(1, philo->prog);
-	while (!check_self_dead(philo))
+	while (!check_dead(philo))
 	{
-		ft_philo(philo, philo->prog, EAT, philo->id);
-		ft_philo(philo, philo->prog, SLEEP, philo->id);
-		ft_philo(philo, philo->prog, THINK, philo->id);
+		ft_philo(philo, EAT, philo->id);
+		ft_philo(philo, SLEEP, philo->id);
+		ft_philo(philo, THINK, philo->id);
 	}
 	return (NULL);
-}
-
-int	philosopher(t_program *prog)
-{
-	int	i;
-
-	i = 0;
-	if (!ft_thread(&prog->pth_monitor, monitor_routine, (void *) prog, CREATE))
-		return (0);
-	while (i < prog->philo_count)
-	{
-		if (!ft_thread(&prog->philos[i]->pth, philo_routine, (void *)prog->philos[i], CREATE))
-			return (0);
-		++i;
-	}
-	if (!ft_thread(&prog->pth_monitor, NULL, NULL, JOIN))
-		return (0);
-	i = 0;
-	while (i < prog->philo_count)
-	{
-		if (!ft_thread(&prog->philos[i]->pth, philo_routine, (void *)prog->philos[i], JOIN))
-			return (0);
-		++i;
-	}
-	return (1);
 }
