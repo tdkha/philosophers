@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:45:26 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/02 13:20:38 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/03 16:26:39 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int	main(int ac, char **av)
 		ft_free(&prog);
 		exit(1);
 	}
-	// if (philosopher(&prog) == 0)
-	// {
-	// 	ft_free(&prog);
-	// 	exit(1);
-	// }
+	if (simulation(&prog) == 0)
+	{
+		ft_free(&prog);
+		exit(1);
+	}
 	ft_free(&prog);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:22:53 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/02 13:06:08 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/03 16:23:42 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,18 @@ int	ft_usleep(size_t milliseconds, t_mutex *mt_lock_print)
 	start = get_current_time(mt_lock_print);
 	while ((get_current_time(mt_lock_print) - start) < milliseconds)
 		usleep(500);
+	return (0);
+}
+
+int	check_dead(t_philo *philo)
+{
+	pthread_mutex_lock(philo->mt_lock);
+	if (philo->terminate && *philo->terminate == 1)
+	{
+		pthread_mutex_unlock(philo->mt_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->mt_lock);
 	return (0);
 }
 

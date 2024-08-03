@@ -6,7 +6,7 @@
 #    By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 12:22:18 by ktieu             #+#    #+#              #
-#    Updated: 2024/08/02 13:18:18 by ktieu            ###   ########.fr        #
+#    Updated: 2024/08/03 16:27:05 by ktieu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ SRC_FILES		=	$(SRC_DIR)/libft.c \
 					$(SRC_DIR)/args.c \
 					$(SRC_DIR)/ft_init.c \
 					$(SRC_DIR)/ft_free.c \
+					$(SRC_DIR)/philosopher.c \
+					$(SRC_DIR)/simulation.c \
 					$(SRC_DIR)/main.c
 
 BONUS_DIR		=	./srcs/bonus

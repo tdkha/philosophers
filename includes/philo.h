@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/02 13:55:43 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/03 16:26:29 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef pthread_t		t_thread;
 // STRUCT
 //--------------------------------------------------
 
-typedef enum s_philo_status
+typedef enum s_philo_action
 {
 	FORK_UP_L,
 	FORK_UP_R,
@@ -41,15 +41,15 @@ typedef enum s_philo_status
 	EAT,
 	SLEEP,
 	THINK,
-	DIE
-}	t_philo_status;
+}	t_philo_action;
 
 typedef struct s_philo
 {
 	int					id;
-	int					died;
-	int					eating;
+	int					*terminate;
+	int					*philo_full_count;
 	int					meal_eaten;
+	int					must_eat;
 	int					philo_count;
 	size_t				last_meal_ms;
 	size_t				start_ms;
@@ -59,27 +59,25 @@ typedef struct s_philo
 	t_thread			pth;
 	t_mutex				*left_fork;
 	t_mutex				*right_fork;
-	t_mutex				*mt_lock_meal;
+	t_mutex				*mt_lock;
 	t_mutex				*mt_lock_print;
-	t_mutex				*mt_lock_dead;
 }	t_philo;
 
 typedef struct s_program
 {
 	int			ac;
 	char		**av;
+	int			terminate;
 	int			philo_count;
+	int			philo_full_count;
 	int			must_eat;
 	size_t		time_die;
 	size_t		time_eat;
 	size_t		time_sleep;
-	t_mutex		mt_lock_meal;
+	t_mutex		mt_lock;
 	t_mutex		mt_lock_print;
-	t_mutex		mt_lock_dead;
 	t_mutex		*mt_forks;
 	t_philo		**philos;
-	t_thread	pth_monitor;
-	int			terminate;
 }	t_program;
 
 //--------------------------------------------------
@@ -98,6 +96,7 @@ void	*ft_calloc(size_t count, size_t size);
 
 size_t	get_current_time(t_mutex *mt_lock_print);
 int		ft_usleep(size_t milliseconds, t_mutex *mt_lock_print);
+int		check_dead(t_philo *philo);
 int		ft_min(int a, int b);
 int		ft_max(int a, int b);
 
@@ -107,7 +106,7 @@ int		ft_max(int a, int b);
 
 void	error_msg(char *str, t_mutex *mt_lock_print);
 int		error_msg_ret(char *str, t_mutex *mt_lock_print, int return_val);
-void	philo_msg(t_philo *philo, t_philo_status status);
+int		philo_msg(t_philo *philo, t_philo_action status);
 
 //--------------------------------------------------
 // PROGRAM UTILS
@@ -122,6 +121,7 @@ int		ft_free(t_program *prog);
 
 void	*monitor_routine(void *v_prog);
 void	*philo_routine(void *v_philo);
+int		simulation(t_program *prog);
 //--------------------------------------------------
 // MAIN PROGRAM
 //--------------------------------------------------
