@@ -6,27 +6,26 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:22:53 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/03 16:23:42 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/03 17:50:54 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-size_t	get_current_time(t_mutex *mt_lock_print)
+size_t	get_current_time(void)
 {
 	struct timeval	time;
 
-	if (gettimeofday(&time, NULL) == -1)
-		error_msg("Error occurred when calling <gettimeofday>\n", mt_lock_print);
+	gettimeofday(&time, NULL);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-int	ft_usleep(size_t milliseconds, t_mutex *mt_lock_print)
+int	ft_usleep(size_t milliseconds)
 {
 	size_t	start;
 
-	start = get_current_time(mt_lock_print);
-	while ((get_current_time(mt_lock_print) - start) < milliseconds)
+	start = get_current_time();
+	while ((get_current_time() - start) < milliseconds)
 		usleep(500);
 	return (0);
 }

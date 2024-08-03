@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/03 16:26:29 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/03 18:49:03 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,6 @@ typedef pthread_t		t_thread;
 // STRUCT
 //--------------------------------------------------
 
-typedef enum s_philo_action
-{
-	FORK_UP_L,
-	FORK_UP_R,
-	FORK_DOWN_L,
-	FORK_DOWN_R,
-	EAT,
-	SLEEP,
-	THINK,
-}	t_philo_action;
-
 typedef struct s_philo
 {
 	int					id;
@@ -60,7 +49,7 @@ typedef struct s_philo
 	t_mutex				*left_fork;
 	t_mutex				*right_fork;
 	t_mutex				*mt_lock;
-	t_mutex				*mt_lock_print;
+	// t_mutex				*mt_lock;
 }	t_philo;
 
 typedef struct s_program
@@ -75,7 +64,7 @@ typedef struct s_program
 	size_t		time_eat;
 	size_t		time_sleep;
 	t_mutex		mt_lock;
-	t_mutex		mt_lock_print;
+	// t_mutex		mt_lock;
 	t_mutex		*mt_forks;
 	t_philo		**philos;
 }	t_program;
@@ -94,8 +83,8 @@ void	*ft_calloc(size_t count, size_t size);
 // UTILS
 //--------------------------------------------------
 
-size_t	get_current_time(t_mutex *mt_lock_print);
-int		ft_usleep(size_t milliseconds, t_mutex *mt_lock_print);
+size_t	get_current_time();
+int		ft_usleep(size_t milliseconds);
 int		check_dead(t_philo *philo);
 int		ft_min(int a, int b);
 int		ft_max(int a, int b);
@@ -104,9 +93,9 @@ int		ft_max(int a, int b);
 // PRINT MESSAGE
 //--------------------------------------------------
 
-void	error_msg(char *str, t_mutex *mt_lock_print);
-int		error_msg_ret(char *str, t_mutex *mt_lock_print, int return_val);
-int		philo_msg(t_philo *philo, t_philo_action status);
+void	error_msg(char *str, t_mutex *mt_lock);
+int		error_msg_ret(char *str, t_mutex *mt_lock, int return_val);
+int		philo_msg(t_philo *philo, char *str);
 
 //--------------------------------------------------
 // PROGRAM UTILS

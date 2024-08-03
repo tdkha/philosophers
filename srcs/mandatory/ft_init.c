@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:49:09 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/03 16:24:18 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/03 18:49:13 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@
  */
 static void	ft_fork_assign(t_program *prog, int i)
 {
-	int	nth;
+	// int	nth;
 	
-	nth = ft_min(i, (i + 1) % prog->philo_count);
-	prog->philos[i]->left_fork = &prog->mt_forks[nth];
-	nth = ft_max(i, (i + 1) % prog->philo_count);
-	prog->philos[i]->right_fork = &prog->mt_forks[nth];
+	// nth = ft_min(i, (i + 1) % prog->philo_count);
+	prog->philos[i]->left_fork = &prog->mt_forks[i];
+	// nth = ft_max(i, (i + 1) % prog->philo_count);
+	prog->philos[i]->right_fork = &prog->mt_forks[(i + 1) % prog->philo_count];
 }
 
 /**
@@ -44,7 +44,7 @@ static int	ft_philos_init(t_program *prog)
 	{
 		prog->philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		if (!prog->philos[i])
-			return (error_msg_ret("Failed to malloc type (t_philo *)\n", &prog->mt_lock_print, 0));
+			return (error_msg_ret("Failed to malloc type (t_philo *)\n", &prog->mt_lock, 0));
 		memset(prog->philos[i], 0, sizeof(t_philo));
 		prog->philos[i]->id = i;
 		prog->philos[i]->philo_count = prog->philo_count;
@@ -52,8 +52,8 @@ static int	ft_philos_init(t_program *prog)
 		prog->philos[i]->terminate = &prog->terminate;
 		prog->philos[i]->philo_full_count = &prog->philo_full_count;
 		prog->philos[i]->mt_lock = &prog->mt_lock;
-		prog->philos[i]->mt_lock_print = &prog->mt_lock_print;
-		prog->philos[i]->start_ms = get_current_time(&prog->mt_lock_print);
+		prog->philos[i]->mt_lock = &prog->mt_lock;
+		prog->philos[i]->start_ms = get_current_time();
 		prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
 		prog->philos[i]->time_die = prog->time_die;
 		prog->philos[i]->time_sleep = prog->time_sleep;
@@ -67,7 +67,7 @@ static int	ft_philos_init(t_program *prog)
  * Function to init all the mutexes in the program
  * List of mutexes:
  * <1> mt_lock_meal
- * <2> mt_lock_print
+ * <2> mt_lock
  * <3> mt_forks (array of mutexes)
  */
 static int	ft_mutexes_init(t_program *prog)
@@ -75,15 +75,14 @@ static int	ft_mutexes_init(t_program *prog)
 	int	i;
 
 	i = 0;
-	if (pthread_mutex_init(&prog->mt_lock, NULL)
-		|| pthread_mutex_init(&prog->mt_lock_print, NULL))
+	if (pthread_mutex_init(&prog->mt_lock, NULL))
 	{
-		return (error_msg_ret("Failed to init mutex\n", &prog->mt_lock_print ,0));
+		return (error_msg_ret("Failed to init mutex\n", &prog->mt_lock ,0));
 	}
 	while (i < prog->philo_count)
 	{
 		if (pthread_mutex_init(&prog->mt_forks[i], NULL))
-			return (error_msg_ret("Failed to init mutex\n", &prog->mt_lock_print ,0));
+			return (error_msg_ret("Failed to init mutex\n", &prog->mt_lock ,0));
 		++i;
 	}
 	return (1);

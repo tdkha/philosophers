@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:23:47 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/03 16:15:34 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/03 17:46:13 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int	ft_mutexes_clean(t_program *prog)
 		free(prog->mt_forks);
 		prog->mt_forks = NULL;
 	}
-	pthread_mutex_destroy(&prog->mt_lock_print);
 	pthread_mutex_destroy(&prog->mt_lock);
 	return (1);
 }
