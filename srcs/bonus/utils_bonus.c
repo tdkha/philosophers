@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/21 12:22:53 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/03 17:50:54 by ktieu            ###   ########.fr       */
+/*   Created: 2024/08/05 13:17:27 by ktieu             #+#    #+#             */
+/*   Updated: 2024/08/05 14:42:56 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+#include "../../includes/philo_bonus.h"
 
 size_t	get_current_time(void)
 {
@@ -32,13 +32,12 @@ int	ft_usleep(size_t milliseconds)
 
 int	check_dead(t_philo *philo)
 {
-	pthread_mutex_lock(philo->mt_lock);
-	if (philo->terminate && *philo->terminate == 1)
+	if (sem_wait(philo->prog->sem) == 0)
 	{
-		pthread_mutex_unlock(philo->mt_lock);
-		return (1);
+		
 	}
-	pthread_mutex_unlock(philo->mt_lock);
+	
+	
 	return (0);
 }
 

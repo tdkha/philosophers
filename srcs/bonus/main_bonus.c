@@ -1,30 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/20 11:45:26 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/04 23:03:12 by ktieu            ###   ########.fr       */
+/*   Created: 2024/08/05 13:16:59 by ktieu             #+#    #+#             */
+/*   Updated: 2024/08/05 14:09:10 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+
+#include "../../includes/philo_bonus.h"
+
+static t_program	*ft_prog_init(int ac, char **av)
+{
+	t_program	*res;
+
+	res = (t_program *)ft_calloc(1, sizeof(t_program));
+	if (!res)
+	{
+		non_blocking_error_msg("Malloc failed for type (t_prog *)\n");
+		exit(1);
+	}
+	memset(res, 0, sizeof(t_program));
+	return (res);
+}
 
 int	main(int ac, char **av)
 {
-	t_program	prog;
+	t_program	*prog;
 
 	memset(&prog, 0, sizeof(t_program));
 	if ((ac != 5 && ac != 6) || !ft_arg_check(ac, av))
 	{
-		error_msg("Invalid argument(s)\n", &prog.mt_lock);
+		non_blocking_error_msg("Invalid argument(s)\n");
 		exit(1);
 	}
-	if (ft_init(ac, av, &prog) == 0)
+	prog = ft_prog_init(ac, av);
+	if (ft_init(ac, av, prog) == 0)
 	{
-		ft_free(&prog);
+		ft_free(prog);
 		exit(1);
 	}
 	// if (simulation(&prog) == 0)
@@ -32,12 +48,5 @@ int	main(int ac, char **av)
 	// 	ft_free(&prog);
 	// 	exit(1);
 	// }
-	// int i = 0;
-	// while (i < prog.philo_count)
-	// {
-	// 	printf("Philo %d: %d\n", i + 1, prog.philos[i]->meal_eaten);
-	// 	i++;
-	// }
-	ft_free(&prog);
 	return (0);
 }
