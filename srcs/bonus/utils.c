@@ -1,0 +1,59 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 12:22:53 by ktieu             #+#    #+#             */
+/*   Updated: 2024/08/03 17:50:54 by ktieu            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/philo.h"
+
+size_t	get_current_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
+int	ft_usleep(size_t milliseconds)
+{
+	size_t	start;
+
+	start = get_current_time();
+	while ((get_current_time() - start) < milliseconds)
+		usleep(500);
+	return (0);
+}
+
+int	check_dead(t_philo *philo)
+{
+	pthread_mutex_lock(philo->mt_lock);
+	if (philo->terminate && *philo->terminate == 1)
+	{
+		pthread_mutex_unlock(philo->mt_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->mt_lock);
+	return (0);
+}
+
+int	ft_min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	else
+		return (b);
+}
+
+int	ft_max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	else
+		return (b);
+}
