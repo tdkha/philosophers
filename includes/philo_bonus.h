@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/07 14:02:50 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/07 23:54:46 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/time.h>
 # include <semaphore.h>
 # include <fcntl.h>
-
+#include <signal.h>
 //--------------------------------------------------
 // RE_DEFINITION
 //--------------------------------------------------
@@ -114,16 +114,23 @@ int		philo_msg(t_philo *philo, char *str);
 int		ft_init(int ac, char **av, t_program *prog);
 int		ft_free(t_program *prog);
 int		ft_philos_clean(t_program *prog);
+
+//--------------------------------------------------
+//	PROCESS
+//--------------------------------------------------
+int		create_process(t_program *prog);
+void	end_process(t_philo *philo);
+void	wait_process(t_program *prog);
+
 //--------------------------------------------------
 // ROUTINE
 //--------------------------------------------------
-void	end_process(t_philo *philo);
+int		ft_pick_forks(t_philo *philo);
 int		ft_drop_forks(t_philo *philo);
 int		ft_eat(t_philo *philo);
 int 	ft_sleep_think(t_philo *philo);
 int		philo_routine(t_philo *philo);
 void	*monitor_routine(void *v_philo);
-
 
 //--------------------------------------------------
 // MAIN PROGRAM

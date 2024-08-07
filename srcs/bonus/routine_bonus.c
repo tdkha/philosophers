@@ -6,13 +6,13 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/07 13:25:37 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/07 23:58:20 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
 
-static int check_dead(t_philo *philo)
+int check_dead(t_philo *philo)
 {
 	size_t	time;
 	
@@ -23,12 +23,16 @@ static int check_dead(t_philo *philo)
 		time = get_current_time();
 		if (time - philo->last_meal_ms >= philo->prog->time_die)
 		{
+			sem_post(philo->prog->sem_shared);
 			printf("%zu %d died\n", time - philo->start_ms, philo->id + 1);
 			end_process(philo);
 			return (1);
 		}
 		else
+		{
+			sem_post(philo->prog->sem_shared);
 			return (0);
+		}
 	}
 }
 
@@ -39,7 +43,7 @@ void	*monitor_routine(void *v_philo)
 	philo = (t_philo *)v_philo;
 	while (1)
 	{
-		if (check_dead)
+		if (check_dead(philo))
 			break ;
 	}
 	return (NULL);
@@ -68,6 +72,7 @@ int	philo_routine(t_philo *philo)
 		}
 		else
 		{
+			printf("Failed to pick fork\n");
 			sem_post(philo->prog->sem_activate);
 			end_process(philo);
 			return (1);

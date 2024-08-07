@@ -6,7 +6,7 @@
 #    By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 12:22:18 by ktieu             #+#    #+#              #
-#    Updated: 2024/08/07 13:35:22 by ktieu            ###   ########.fr        #
+#    Updated: 2024/08/07 23:45:45 by ktieu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,9 @@ BONUS_FILES		=	$(BONUS_DIR)/libft_bonus.c \
 					$(BONUS_DIR)/args_bonus.c \
 					$(BONUS_DIR)/ft_init_bonus.c \
 					$(BONUS_DIR)/ft_free_bonus.c \
+					$(BONUS_DIR)/process_bonus.c \
+					$(BONUS_DIR)/routine_utils_bonus.c \
+					$(BONUS_DIR)/routine_bonus.c \
 					$(BONUS_DIR)/main_bonus.c
 
 OBJ_DIR			=	obj

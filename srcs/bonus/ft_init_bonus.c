@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:37 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/07 14:28:16 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/07 23:26:56 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,41 +65,9 @@ static int	ft_sem_init(t_program *prog)
 	if (prog->sem_activate == SEM_FAILED)
 		return (0);
 	sem_unlink("end");
-	prog->sem_end = sem_open("end", O_CREAT, 0644, 0);  // Correct initialization here
+	prog->sem_end = sem_open("end", O_CREAT, 0644, 0);
 	if (prog->sem_end == SEM_FAILED)
 		return (0);
-	return (1);
-}
-
-/**
- * Function to init the processes using fork() fucntion
- */
-static int	ft_process_init(t_program *prog)
-{
-	int			i;
-	int			code;
-	t_thread	thread;
-
-	i = 0;
-	code = 0;
-	while (i < prog->philo_count)
-	{
-		prog->philos[i]->pid = fork();
-		if (prog->philos[i]->pid == -1)
-			return (0);
-		else if (prog->philos[i]->pid == 0)
-		{
-			// child process
-			if (pthread_create(&thread, NULL, monitor_routine, (void *) prog->philos[i]))
-				return (0);
-			if (pthread_detach(thread))
-				return (0);
-			code = philo_routine(prog->philos[i]);
-			exit(code);
-		}
-		// parent process
-		++i;
-	}
 	return (1);
 }
 

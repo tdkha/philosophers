@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/07 14:28:26 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/07 23:44:59 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int	main(int ac, char **av)
 		exit(1);
 	}
 	prog = ft_prog_init();
-	if (ft_init(ac, av, prog) == 0)
+	if (!ft_init(ac, av, prog) || !create_process(prog))
 	{
 		ft_free(prog);
 		exit(1);
 	}
-	sem_post(prog->sem_end);
+	wait_process(prog);
 	ft_free(prog);
 	return (0);
 }
