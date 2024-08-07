@@ -6,11 +6,31 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/06 15:38:38 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:25:37 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
+
+static int check_dead(t_philo *philo)
+{
+	size_t	time;
+	
+	if (sem_wait(philo->prog->sem_shared) != 0)
+		return (non_blocking_error_msg_ret("Error in check_dead from sem_wait", 0));
+	else
+	{
+		time = get_current_time();
+		if (time - philo->last_meal_ms >= philo->prog->time_die)
+		{
+			printf("%zu %d died\n", time - philo->start_ms, philo->id + 1);
+			end_process(philo);
+			return (1);
+		}
+		else
+			return (0);
+	}
+}
 
 void	*monitor_routine(void *v_philo)
 {
@@ -19,74 +39,18 @@ void	*monitor_routine(void *v_philo)
 	philo = (t_philo *)v_philo;
 	while (1)
 	{
-		
+		if (check_dead)
+			break ;
 	}
+	return (NULL);
+
 }
 
-static int	ft_pick_forks(t_philo *philo)
-{
-	int	status;
-
-	status = sem_wait(philo->prog->sem_forks);
-	if (status != 0)
-		return (0);
-	status = philo_msg(philo, "has taken a fork");
-	if (status != 0)
-		return (0);
-	status = sem_wait(philo->prog->sem_forks);
-	if (status != 0)
-		return (0);
-	status = philo_msg(philo, "has taken a fork");
-	if (status != 0)
-		return (0);
-	return (1);
-}
-
-static int	ft_drop_forks(t_philo *philo)
-{
-	int	status;
-
-	status = sem_post(philo->prog->sem_forks);
-	if (status != 0)
-		return (0);
-	status = sem_post(philo->prog->sem_forks);
-	if (status != 0)
-		return (0);
-	return (1);
-}
-
-static int	ft_eat(t_philo *philo)
-{		
-	if (sem_wait(philo->prog->sem_shared) != 0)
-		return (0);
-	philo->meal_eaten++;
-	philo->last_meal_ms = get_current_time();
-	if (sem_post(philo->prog->sem_shared) != 0)
-		return (0);
-	
-	if (philo_msg(philo, "is eating") != 0)
-		return (0);
-	ft_usleep(philo->prog->time_eat);
-	
-	if (!ft_drop_forks)
-		return (0);
-	return (1);
-}
-
-static int ft_sleep_think(t_philo *philo)
-{
-	int	status;
-	
-	status = philo_msg(philo, "is sleeping");
-	if (status != 0)
-		return (0);
-	ft_usleep(philo->prog->time_sleep);
-	status = philo_msg(philo, "is thinking");
-	if (status != 0)
-		return (0);
-	return (1);
-}
-
+/**
+ * Routine of a philosopher
+ * 
+ * @return exit_code [0, 1]
+ */
 int	philo_routine(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
@@ -99,10 +63,15 @@ int	philo_routine(t_philo *philo)
 		if (ft_pick_forks(philo))
 		{
 			sem_post(philo->prog->sem_activate);
-			ft_eat(philo);
-			ft_sleep_think(philo);
+			if (!ft_eat(philo) || !ft_sleep_think(philo))
+				end_process(philo);
 		}
 		else
+		{
+			sem_post(philo->prog->sem_activate);
+			end_process(philo);
+			return (1);
+		}
 	}
-	return (1);
+	return (0);
 }

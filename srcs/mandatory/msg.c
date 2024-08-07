@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:49:06 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/03 17:43:11 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:23:06 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,3 @@ int	philo_msg(t_philo *philo, char *str)
 	return (1);
 }
 
-// int thread_msg(t_philo *philo, char *str)
-// {
-// 	size_t	time;
-
-// 	time = get_current_time(philo->mt_lock) - philo->start_ms;
-// 	printf("%zu %d %s\n", time, philo->id + 1, str);
-// 	return (1);
-// }

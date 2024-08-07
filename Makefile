@@ -6,14 +6,14 @@
 #    By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 12:22:18 by ktieu             #+#    #+#              #
-#    Updated: 2024/08/06 21:34:39 by ktieu            ###   ########.fr        #
+#    Updated: 2024/08/07 13:35:22 by ktieu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	philo
 NAME_BONUS		=	philo_bonus
 
-CFLAGS			=	-g -fsanitize=address -O3 -pthread -Wall -Wextra -Werror -I ./includes
+CFLAGS			=	-g  -O3 -pthread  -I ./includes
 CC				=	cc
 
 SRC_DIR			=	./srcs/mandatory

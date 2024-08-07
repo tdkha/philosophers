@@ -1,10 +1,10 @@
 #!/bin/bash
 
 make fclean
-make
+make bonus
 
 clear
 
 # valgrind  --leak-check=full --track-origins=yes ./philo 5 800 200 200 5
 
-./philo 5 800 200 200 7
+./philo_bonus 5 800 200 200 7

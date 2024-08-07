@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:37 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/07 08:22:56 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/07 14:28:16 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	ft_philos_init(t_program *prog)
 		prog->philos[i]->id = i;
 		prog->philos[i]->start_ms = get_current_time();
 		prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
-		prog->philos[i]->prog = &prog;
+		prog->philos[i]->prog = prog;
 	}
 	return (1);
 }
@@ -65,8 +65,8 @@ static int	ft_sem_init(t_program *prog)
 	if (prog->sem_activate == SEM_FAILED)
 		return (0);
 	sem_unlink("end");
-	prog->sem_activate = sem_open("end", O_CREAT, 0644, 0);
-	if (prog->sem_activate == SEM_FAILED)
+	prog->sem_end = sem_open("end", O_CREAT, 0644, 0);  // Correct initialization here
+	if (prog->sem_end == SEM_FAILED)
 		return (0);
 	return (1);
 }
@@ -100,6 +100,7 @@ static int	ft_process_init(t_program *prog)
 		// parent process
 		++i;
 	}
+	return (1);
 }
 
 int	ft_init(int ac, char **av, t_program *prog)
@@ -118,7 +119,12 @@ int	ft_init(int ac, char **av, t_program *prog)
 		ft_calloc((prog->philo_count + 1), sizeof(t_philo *));
 	if (!prog->philos)
 		return (0);
-	if (!ft_sem_init(prog) || !ft_philos_init(prog))
+	if (!ft_philos_init(prog))
 		return (0);
+	if (!ft_sem_init(prog))
+	{
+		ft_philos_clean(prog);
+		return (0);
+	}
 	return (1);
 }

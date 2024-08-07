@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:17:18 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/06 15:17:54 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:30:50 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,12 @@ void	error_msg(char *str, sem_t *sem_shared)
 	if (sem_wait(sem_shared) != 0)
 	{
 		non_blocking_error_msg("Error in error_msg from sem_wait()\n");
-		return (0);
 	}
 	len = (int) ft_strlen(str);
 	(void)!write(2, str, len);
 	if (sem_post(sem_shared) != 0)
 	{
 		non_blocking_error_msg("Error in error_msg from sem_wait()\n");
-		return (0);
 	}
 }
 
@@ -76,7 +74,7 @@ int	philo_msg(t_philo *philo, char *str)
 		non_blocking_error_msg("Error in philo_msg from sem_wait()\n");
 		return (0);
 	}
-	printf("zu %d %s\n", time, philo->id, str);
+	printf("%zu %d %s\n", time, philo->id + 1, str);
 	if (sem_post(philo->prog->sem_shared) != 0)
 	{
 		non_blocking_error_msg("Error in philo_msg from sem_post()\n");

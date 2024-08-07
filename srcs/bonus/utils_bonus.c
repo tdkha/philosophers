@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:17:27 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/06 15:39:54 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:09:02 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,4 @@ int	ft_usleep(size_t milliseconds)
 	return (0);
 }
 
-int ft_end_process(t_philo *philo)
-{
-	
-}
 
