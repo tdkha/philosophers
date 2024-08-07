@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:37 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/05 14:50:45 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/07 08:22:56 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,36 @@ static int	ft_philos_init(t_program *prog)
 }
 
 /**
- * Function to init all the mutexes in the program
- * List of mutexes:
- * <1> mt_lock_meal
- * <2> mt_lock
- * <3> mt_forks (array of mutexes)
+ * Function to init all the semaphores
+ * <1> sem_shared
+ * <2> sem_forks
+ * <3> sem_activate
+ * <4> sem_end
+ * 
+ * Description: 
+ * - sem_shared counter is 1 since we want only want operation at a time like printf
+ * - sem_forks counter is equal to a number of forks (or philosophers)
+ * - sem_activate counter is equal to a half of philosophers (odd or even scheme)
+ * - sem_end is zero semaphore that will block until the sem_post() is called
  */
 static int	ft_sem_init(t_program *prog)
 {
-	sem_unlink("sem");
-	prog->sem = sem_open("sem", O_CREAT, 0644, prog->philo_count);
-	if (prog->sem == SEM_FAILED)
-	{
+	sem_unlink("shared");
+	prog->sem_shared = sem_open("shared", O_CREAT, 0644, 1);
+	if (prog->sem_shared == SEM_FAILED)
 		return (0);
-	}
+	sem_unlink("forks");
+	prog->sem_forks = sem_open("forks", O_CREAT, 0644, prog->philo_count);
+	if (prog->sem_forks == SEM_FAILED)
+		return (0);
+	sem_unlink("activate");
+	prog->sem_activate = sem_open("activate", O_CREAT, 0644, prog->philo_count / 2);
+	if (prog->sem_activate == SEM_FAILED)
+		return (0);
+	sem_unlink("end");
+	prog->sem_activate = sem_open("end", O_CREAT, 0644, 0);
+	if (prog->sem_activate == SEM_FAILED)
+		return (0);
 	return (1);
 }
 
@@ -73,6 +89,7 @@ static int	ft_process_init(t_program *prog)
 			return (0);
 		else if (prog->philos[i]->pid == 0)
 		{
+			// child process
 			if (pthread_create(&thread, NULL, monitor_routine, (void *) prog->philos[i]))
 				return (0);
 			if (pthread_detach(thread))
@@ -80,8 +97,8 @@ static int	ft_process_init(t_program *prog)
 			code = philo_routine(prog->philos[i]);
 			exit(code);
 		}
-		else
-			++i;
+		// parent process
+		++i;
 	}
 }
 

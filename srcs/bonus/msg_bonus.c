@@ -6,21 +6,11 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:17:18 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/05 14:09:14 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/06 15:17:54 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
-
-void	error_msg(char *str, t_mutex *mt_lock)
-{
-	int	len;
-
-	pthread_mutex_lock(mt_lock);
-	len = (int) ft_strlen(str);
-	(void)!write(2, str, len);
-	pthread_mutex_unlock(mt_lock);
-}
 
 void	non_blocking_error_msg(char *str)
 {
@@ -39,14 +29,40 @@ int	non_blocking_error_msg_ret(char *str, int val)
 	return (val);
 }
 
-int	error_msg_ret(char *str, t_mutex *mt_lock, int return_val)
+void	error_msg(char *str, sem_t *sem_shared)
 {
 	int	len;
 
-	pthread_mutex_lock(mt_lock);
+	if (sem_wait(sem_shared) != 0)
+	{
+		non_blocking_error_msg("Error in error_msg from sem_wait()\n");
+		return (0);
+	}
 	len = (int) ft_strlen(str);
 	(void)!write(2, str, len);
-	pthread_mutex_unlock(mt_lock);
+	if (sem_post(sem_shared) != 0)
+	{
+		non_blocking_error_msg("Error in error_msg from sem_wait()\n");
+		return (0);
+	}
+}
+
+int	error_msg_ret(char *str, sem_t *sem_shared, int return_val)
+{
+	int	len;
+
+	if (sem_wait(sem_shared) != 0)
+	{
+		non_blocking_error_msg("Error in error_msg from sem_wait()\n");
+		return (0);
+	}
+	len = (int) ft_strlen(str);
+	(void)!write(2, str, len);
+	if (sem_post(sem_shared) != 0)
+	{
+		non_blocking_error_msg("Error in error_msg from sem_wait()\n");
+		return (0);
+	}
 	return (return_val);
 }
 
@@ -54,11 +70,17 @@ int	philo_msg(t_philo *philo, char *str)
 {
 	size_t	time;
 
-	time = get_current_time(philo->mt_lock) - philo->start_ms;
-	pthread_mutex_lock(philo->mt_lock);
-	if (*philo->terminate == 1)
-		return (pthread_mutex_unlock(philo->mt_lock), 0);
-	printf("%zu %d %s\n", time, philo->id + 1, str);
-	pthread_mutex_unlock(philo->mt_lock);
+	time = get_current_time() - philo->start_ms;
+	if (sem_wait(philo->prog->sem_shared) != 0)
+	{
+		non_blocking_error_msg("Error in philo_msg from sem_wait()\n");
+		return (0);
+	}
+	printf("zu %d %s\n", time, philo->id, str);
+	if (sem_post(philo->prog->sem_shared) != 0)
+	{
+		non_blocking_error_msg("Error in philo_msg from sem_post()\n");
+		return (0);
+	}
 	return (1);
 }

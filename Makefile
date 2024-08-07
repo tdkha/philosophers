@@ -6,14 +6,14 @@
 #    By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 12:22:18 by ktieu             #+#    #+#              #
-#    Updated: 2024/08/03 16:27:05 by ktieu            ###   ########.fr        #
+#    Updated: 2024/08/06 21:34:39 by ktieu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	philo
 NAME_BONUS		=	philo_bonus
 
-CFLAGS			=	-g -O3 -pthread -Wall -Wextra -Werror -I ./includes
+CFLAGS			=	-g -fsanitize=address -O3 -pthread -Wall -Wextra -Werror -I ./includes
 CC				=	cc
 
 SRC_DIR			=	./srcs/mandatory
@@ -28,13 +28,13 @@ SRC_FILES		=	$(SRC_DIR)/libft.c \
 					$(SRC_DIR)/main.c
 
 BONUS_DIR		=	./srcs/bonus
-BONUS_FILES		=	$(BONUS_DIR)/libft.c \
-					$(BONUS_DIR)/utils.c \
-					$(BONUS_DIR)/msg.c \
-					$(BONUS_DIR)/args.c \
-					$(BONUS_DIR)/ft_init.c \
-					$(BONUS_DIR)/ft_free.c \
-					$(BONUS_DIR)/main.c
+BONUS_FILES		=	$(BONUS_DIR)/libft_bonus.c \
+					$(BONUS_DIR)/utils_bonus.c \
+					$(BONUS_DIR)/msg_bonus.c \
+					$(BONUS_DIR)/args_bonus.c \
+					$(BONUS_DIR)/ft_init_bonus.c \
+					$(BONUS_DIR)/ft_free_bonus.c \
+					$(BONUS_DIR)/main_bonus.c
 
 OBJ_DIR			=	obj
 OBJ_FILES		=	$(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

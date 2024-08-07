@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:17:27 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/05 14:42:56 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/06 15:39:54 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,8 @@ int	ft_usleep(size_t milliseconds)
 	return (0);
 }
 
-int	check_dead(t_philo *philo)
+int ft_end_process(t_philo *philo)
 {
-	if (sem_wait(philo->prog->sem) == 0)
-	{
-		
-	}
 	
-	
-	return (0);
 }
 
-int	ft_min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	else
-		return (b);
-}
-
-int	ft_max(int a, int b)
-{
-	if (a > b)
-		return (a);
-	else
-		return (b);
-}

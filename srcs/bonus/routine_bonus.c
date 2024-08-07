@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/05 14:50:15 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/06 15:38:38 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,86 @@ void	*monitor_routine(void *v_philo)
 	}
 }
 
+static int	ft_pick_forks(t_philo *philo)
+{
+	int	status;
+
+	status = sem_wait(philo->prog->sem_forks);
+	if (status != 0)
+		return (0);
+	status = philo_msg(philo, "has taken a fork");
+	if (status != 0)
+		return (0);
+	status = sem_wait(philo->prog->sem_forks);
+	if (status != 0)
+		return (0);
+	status = philo_msg(philo, "has taken a fork");
+	if (status != 0)
+		return (0);
+	return (1);
+}
+
+static int	ft_drop_forks(t_philo *philo)
+{
+	int	status;
+
+	status = sem_post(philo->prog->sem_forks);
+	if (status != 0)
+		return (0);
+	status = sem_post(philo->prog->sem_forks);
+	if (status != 0)
+		return (0);
+	return (1);
+}
+
+static int	ft_eat(t_philo *philo)
+{		
+	if (sem_wait(philo->prog->sem_shared) != 0)
+		return (0);
+	philo->meal_eaten++;
+	philo->last_meal_ms = get_current_time();
+	if (sem_post(philo->prog->sem_shared) != 0)
+		return (0);
+	
+	if (philo_msg(philo, "is eating") != 0)
+		return (0);
+	ft_usleep(philo->prog->time_eat);
+	
+	if (!ft_drop_forks)
+		return (0);
+	return (1);
+}
+
+static int ft_sleep_think(t_philo *philo)
+{
+	int	status;
+	
+	status = philo_msg(philo, "is sleeping");
+	if (status != 0)
+		return (0);
+	ft_usleep(philo->prog->time_sleep);
+	status = philo_msg(philo, "is thinking");
+	if (status != 0)
+		return (0);
+	return (1);
+}
+
 int	philo_routine(t_philo *philo)
 {
+	if (philo->id % 2 == 0)
+		ft_usleep(10);
 	while (1)
 	{
-		return (0);
+		sem_wait(philo->prog->sem_activate);
+		if (philo->prog->philo_count == 1)
+			continue;
+		if (ft_pick_forks(philo))
+		{
+			sem_post(philo->prog->sem_activate);
+			ft_eat(philo);
+			ft_sleep_think(philo);
+		}
+		else
 	}
 	return (1);
 }
