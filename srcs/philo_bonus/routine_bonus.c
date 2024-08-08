@@ -6,12 +6,20 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/07 23:58:20 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/08 15:18:19 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
 
+/** 
+ * Function to check for philosopher's death
+ * 
+ * Description:
+ * - If a philosopher dies, it will hang the semaphore so that no other philosopher could print. 
+ * - The release happens in the end_process() function 
+ * after signaling the sem_end to the wait_process()
+ */
 int check_dead(t_philo *philo)
 {
 	size_t	time;
@@ -23,9 +31,10 @@ int check_dead(t_philo *philo)
 		time = get_current_time();
 		if (time - philo->last_meal_ms >= philo->prog->time_die)
 		{
-			sem_post(philo->prog->sem_shared);
+			sem_wait(philo->prog->sem_print);
 			printf("%zu %d died\n", time - philo->start_ms, philo->id + 1);
 			end_process(philo);
+			sem_post(philo->prog->sem_shared);
 			return (1);
 		}
 		else
@@ -36,6 +45,7 @@ int check_dead(t_philo *philo)
 	}
 }
 
+
 void	*monitor_routine(void *v_philo)
 {
 	t_philo	*philo;
@@ -44,7 +54,9 @@ void	*monitor_routine(void *v_philo)
 	while (1)
 	{
 		if (check_dead(philo))
+		{
 			break ;
+		}
 	}
 	return (NULL);
 

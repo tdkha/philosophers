@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/07 23:54:46 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/08 15:11:57 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/time.h>
 # include <semaphore.h>
 # include <fcntl.h>
-#include <signal.h>
+# include <signal.h>
 //--------------------------------------------------
 // RE_DEFINITION
 //--------------------------------------------------
@@ -75,6 +75,7 @@ typedef struct s_program
 	sem_t		*sem_forks;
 	sem_t		*sem_activate;
 	sem_t		*sem_end;
+	sem_t		*sem_print;
 }	t_program;
 
 //--------------------------------------------------
@@ -125,13 +126,14 @@ void	wait_process(t_program *prog);
 //--------------------------------------------------
 // ROUTINE
 //--------------------------------------------------
+
 int		ft_pick_forks(t_philo *philo);
 int		ft_drop_forks(t_philo *philo);
 int		ft_eat(t_philo *philo);
 int 	ft_sleep_think(t_philo *philo);
 int		philo_routine(t_philo *philo);
 void	*monitor_routine(void *v_philo);
-
+void	*dead_routine(void *v_philo);
 //--------------------------------------------------
 // MAIN PROGRAM
 //--------------------------------------------------

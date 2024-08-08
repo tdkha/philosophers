@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:37 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/07 23:26:56 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/08 15:11:41 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ static int	ft_sem_init(t_program *prog)
 	sem_unlink("shared");
 	prog->sem_shared = sem_open("shared", O_CREAT, 0644, 1);
 	if (prog->sem_shared == SEM_FAILED)
+		return (0);
+	prog->sem_print = sem_open("print", O_CREAT, 0644, 1);
+	if (prog->sem_print == SEM_FAILED)
 		return (0);
 	sem_unlink("forks");
 	prog->sem_forks = sem_open("forks", O_CREAT, 0644, prog->philo_count);

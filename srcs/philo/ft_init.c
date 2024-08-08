@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:49:09 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/03 18:49:13 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/08 15:58:17 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,7 @@
  */
 static void	ft_fork_assign(t_program *prog, int i)
 {
-	// int	nth;
-	
-	// nth = ft_min(i, (i + 1) % prog->philo_count);
 	prog->philos[i]->left_fork = &prog->mt_forks[i];
-	// nth = ft_max(i, (i + 1) % prog->philo_count);
 	prog->philos[i]->right_fork = &prog->mt_forks[(i + 1) % prog->philo_count];
 }
 
