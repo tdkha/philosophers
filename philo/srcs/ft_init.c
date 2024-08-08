@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:49:09 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/08 15:58:17 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/08 17:38:44 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static int	ft_philos_init(t_program *prog)
 		prog->philos[i]->terminate = &prog->terminate;
 		prog->philos[i]->philo_full_count = &prog->philo_full_count;
 		prog->philos[i]->mt_lock = &prog->mt_lock;
-		prog->philos[i]->mt_lock = &prog->mt_lock;
 		prog->philos[i]->start_ms = get_current_time();
 		prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
 		prog->philos[i]->time_die = prog->time_die;
@@ -84,6 +83,19 @@ static int	ft_mutexes_init(t_program *prog)
 	return (1);
 }
 
+static int	ft_alloc(t_program *prog)
+{
+	prog->mt_forks = (t_mutex *)
+		ft_calloc(prog->philo_count + 1, sizeof(t_mutex));
+	if (!prog->mt_forks)
+		return (0);
+	prog->philos = (t_philo **)
+		ft_calloc((prog->philo_count + 1), sizeof(t_philo *));
+	if (!prog->philos)
+		return (0);
+	return (1);
+}
+
 int	ft_init(int ac, char **av, t_program *prog)
 {
 	memset(prog, 0, sizeof(t_program));
@@ -93,25 +105,18 @@ int	ft_init(int ac, char **av, t_program *prog)
 	prog->time_die = ft_atold(av[2]);
 	prog->time_eat = ft_atold(av[3]);
 	prog->time_sleep = ft_atold(av[4]);
+	if (prog->time_eat > prog->time_die)
+		prog->time_eat = prog->time_die + 6;
+	if (prog->time_sleep > prog->time_die)
+		prog->time_sleep = prog->time_die + 6;
 	if (ac == 6)
 		prog->must_eat = ft_atold(av[5]);
 	else
 		prog->must_eat = -1;
-	//------------------------------
-	// INIT MUTECES;
-	//------------------------------
-	prog->mt_forks = (t_mutex *)
-		ft_calloc(prog->philo_count + 1, sizeof(t_mutex));
-	if (!prog->mt_forks)
+	
+	if (!ft_alloc(prog))
 		return (0);
 	if (!ft_mutexes_init(prog))
-		return (0);
-	//------------------------------
-	// INIT PHILOS;
-	//------------------------------
-	prog->philos = (t_philo **)
-		ft_calloc((prog->philo_count + 1), sizeof(t_philo *));
-	if (!prog->philos)
 		return (0);
 	if (!ft_philos_init(prog))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:22:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/08 16:01:12 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/08 17:34:05 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	ft_pick_forks(t_philo *philo)
 	return (1);
 }
 
-static void	ft_eat(t_philo *philo)
+static int	ft_eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->mt_lock);
 	philo->meal_eaten++;
@@ -41,7 +41,6 @@ static void	ft_eat(t_philo *philo)
 	
 	philo_msg(philo, "is eating");
 	ft_usleep(philo->time_eat);
-	
 	pthread_mutex_lock(philo->mt_lock);
 	if (philo->meal_eaten == philo->must_eat)
 	{
@@ -51,6 +50,7 @@ static void	ft_eat(t_philo *philo)
 	
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
+	return (1);
 }
 
 static int	ft_sleep_think(t_philo *philo)
@@ -73,12 +73,15 @@ void	*philo_routine(void *v_philo)
 	while (1)
 	{
 		if (ft_pick_forks(philo) == 0)
+			break ;
+		if (ft_eat(philo) == 0)
 		{
 			break ;
 		}
-		ft_eat(philo);
 		if (ft_sleep_think(philo) == 0)
+		{
 			break ;
+		}
 	}
 	return (NULL);
 }
