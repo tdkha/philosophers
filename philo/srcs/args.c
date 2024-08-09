@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:17:44 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/09 14:32:40 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/09 15:08:14 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	valid_int_check(const char *str, int sign)
 
 static int	valid_ulong_check(const char *str, int sign)
 {
-	long long int	res;
+	unsigned long int	res;
 
 	res = 0;
 	while (*str == ' ' || (*str >= '\t' && *str <= '\r'))
