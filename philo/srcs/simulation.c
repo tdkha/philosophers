@@ -6,11 +6,11 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 22:57:24 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/08 17:34:19 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/09 12:59:42 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+#include "../includes/philo.h"
 
 static int	ft_create_threads(t_program *prog)
 {

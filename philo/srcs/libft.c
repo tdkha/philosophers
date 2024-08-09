@@ -6,11 +6,11 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:56:32 by ktieu             #+#    #+#             */
-/*   Updated: 2024/07/22 18:24:57 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/09 12:59:42 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+#include "../includes/philo.h"
 
 long	ft_atold(const char *str)
 {

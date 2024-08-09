@@ -6,11 +6,11 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:45:26 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/08 15:57:41 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/09 12:59:42 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+#include "../includes/philo.h"
 
 int	main(int ac, char **av)
 {

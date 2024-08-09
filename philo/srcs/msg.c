@@ -6,11 +6,11 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:49:06 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/07 13:23:06 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/09 13:33:26 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+#include "../includes/philo.h"
 
 void	error_msg(char *str, t_mutex *mt_lock)
 {
@@ -37,12 +37,16 @@ int	philo_msg(t_philo *philo, char *str)
 {
 	size_t	time;
 
+	if(check_dead(philo))
+	{
+		return (0);
+	}
 	time = get_current_time(philo->mt_lock) - philo->start_ms;
-	pthread_mutex_lock(philo->mt_lock);
+	pthread_mutex_lock(philo->mt_print);
 	if (*philo->terminate == 1)
-		return (pthread_mutex_unlock(philo->mt_lock), 0);
+		return (pthread_mutex_unlock(philo->mt_print), 0);
 	printf("%zu %d %s\n", time, philo->id + 1, str);
-	pthread_mutex_unlock(philo->mt_lock);
+	pthread_mutex_unlock(philo->mt_print);
 	return (1);
 }
 

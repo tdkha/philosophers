@@ -6,11 +6,11 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:23:47 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/03 17:46:13 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/09 13:10:39 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+#include "../includes/philo.h"
 
 static int	ft_mutexes_clean(t_program *prog)
 {
@@ -28,6 +28,7 @@ static int	ft_mutexes_clean(t_program *prog)
 		prog->mt_forks = NULL;
 	}
 	pthread_mutex_destroy(&prog->mt_lock);
+	pthread_mutex_destroy(&prog->mt_print);
 	return (1);
 }
 

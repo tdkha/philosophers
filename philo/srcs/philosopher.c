@@ -6,11 +6,11 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:22:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/08 17:34:05 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/09 13:34:27 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+#include "../includes/philo.h"
 
 
 static int	ft_pick_forks(t_philo *philo)
@@ -39,7 +39,12 @@ static int	ft_eat(t_philo *philo)
 	philo->last_meal_ms = get_current_time();
 	pthread_mutex_unlock(philo->mt_lock);
 	
-	philo_msg(philo, "is eating");
+	if (philo_msg(philo, "is eating") == 0)
+	{
+		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
+		return (0);
+	}
 	ft_usleep(philo->time_eat);
 	pthread_mutex_lock(philo->mt_lock);
 	if (philo->meal_eaten == philo->must_eat)

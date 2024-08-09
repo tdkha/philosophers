@@ -6,11 +6,11 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:49:09 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/08 17:38:44 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/09 13:09:48 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+#include "../includes/philo.h"
 
 /**
  * - The fork partition is based on the <id> of the philosopher
@@ -48,6 +48,7 @@ static int	ft_philos_init(t_program *prog)
 		prog->philos[i]->terminate = &prog->terminate;
 		prog->philos[i]->philo_full_count = &prog->philo_full_count;
 		prog->philos[i]->mt_lock = &prog->mt_lock;
+		prog->philos[i]->mt_print = &prog->mt_print;
 		prog->philos[i]->start_ms = get_current_time();
 		prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
 		prog->philos[i]->time_die = prog->time_die;
@@ -71,6 +72,10 @@ static int	ft_mutexes_init(t_program *prog)
 
 	i = 0;
 	if (pthread_mutex_init(&prog->mt_lock, NULL))
+	{
+		return (error_msg_ret("Failed to init mutex\n", &prog->mt_lock ,0));
+	}
+	if (pthread_mutex_init(&prog->mt_print, NULL))
 	{
 		return (error_msg_ret("Failed to init mutex\n", &prog->mt_lock ,0));
 	}

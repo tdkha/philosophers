@@ -4,11 +4,11 @@
 
 -	Example: ./philo 5 800 2000 2000
 
-2.	Mixed timestamp output on the terminal.
+2.	Mixed timestamp output on the terminal.  ✅
 
 -	Solution
 
-	a. Create another lock for printing purpose
+	a. Create another lock for printing purpose  ✅
 	b. Lock and unlock when a whole thing is done.
 
 3. The bonus hangs

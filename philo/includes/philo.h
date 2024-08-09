@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/08 17:33:12 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/09 14:10:05 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <sys/time.h>
+# include <limits.h>
 
 //--------------------------------------------------
 // RE_DEFINITION
@@ -49,6 +50,7 @@ typedef struct s_philo
 	t_mutex				*left_fork;
 	t_mutex				*right_fork;
 	t_mutex				*mt_lock;
+	t_mutex				*mt_print;
 }	t_philo;
 
 typedef struct s_program
@@ -63,6 +65,7 @@ typedef struct s_program
 	size_t		time_eat;
 	size_t		time_sleep;
 	t_mutex		mt_lock;
+	t_mutex		mt_print;
 	t_mutex		*mt_forks;
 	t_philo		**philos;
 }	t_program;

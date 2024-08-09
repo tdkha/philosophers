@@ -6,11 +6,11 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:22:53 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/08 17:33:37 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/09 12:59:42 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+#include "../includes/philo.h"
 
 size_t	get_current_time(void)
 {
