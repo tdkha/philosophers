@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:49:06 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/09 13:33:26 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/09 15:02:13 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ int	error_msg_ret(char *str, t_mutex *mt_lock, int return_val)
 	return (return_val);
 }
 
+/**
+ * Function to print out an action of a philosopher
+ * 
+ * Description: 
+ * 
+ * - The function first checks for the death of a philosopher before
+ * deciding to print or not.
+ * - The return of this function should checked
+ * 
+ */
 int	philo_msg(t_philo *philo, char *str)
 {
 	size_t	time;

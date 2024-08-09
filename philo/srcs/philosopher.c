@@ -6,21 +6,18 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:22:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/09 13:34:27 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/09 15:01:15 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-
 static int	ft_pick_forks(t_philo *philo)
 {
-	if (check_dead(philo))
-		return (0);
 	pthread_mutex_lock(philo->left_fork);
 	if (philo_msg(philo, "has taken a fork") == 0)
 		return (pthread_mutex_unlock(philo->left_fork), 0);
-	if (check_dead(philo) || philo->philo_count == 1)
+	if (philo->philo_count == 1)
 		return (pthread_mutex_unlock(philo->left_fork), 0);
 	pthread_mutex_lock(philo->right_fork);
 	if (philo_msg(philo, "has taken a fork") == 0)
@@ -38,7 +35,6 @@ static int	ft_eat(t_philo *philo)
 	philo->meal_eaten++;
 	philo->last_meal_ms = get_current_time();
 	pthread_mutex_unlock(philo->mt_lock);
-	
 	if (philo_msg(philo, "is eating") == 0)
 	{
 		pthread_mutex_unlock(philo->left_fork);
@@ -52,7 +48,6 @@ static int	ft_eat(t_philo *philo)
 		++(*philo->philo_full_count);
 	}
 	pthread_mutex_unlock(philo->mt_lock);
-	
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 	return (1);
