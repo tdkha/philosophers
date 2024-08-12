@@ -6,10 +6,9 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/12 21:56:07 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 23:12:51 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/philo_bonus.h"
 
@@ -20,7 +19,7 @@ static t_program	*ft_prog_init(void)
 	res = (t_program *)ft_calloc(1, sizeof(t_program));
 	if (!res)
 	{
-		non_blocking_error_msg("Malloc failed for type (t_prog *)\n");
+		error_msg("Malloc failed for type (t_prog *)\n");
 		exit(1);
 	}
 	memset(res, 0, sizeof(t_program));
@@ -31,10 +30,9 @@ int	main(int ac, char **av)
 {
 	t_program	*prog;
 
-	
 	if ((ac != 5 && ac != 6) || !ft_arg_check(ac, av))
 	{
-		non_blocking_error_msg("Invalid argument(s)\n");
+		error_msg("Invalid argument(s)\n");
 		exit(1);
 	}
 	prog = ft_prog_init();

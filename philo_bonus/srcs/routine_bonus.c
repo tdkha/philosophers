@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/12 21:59:06 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 23:15:05 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,20 @@
  * Function to check for philosopher's death
  * 
  * Description:
- * - If a philosopher dies, it will hang the semaphore so that no other philosopher could print. 
+ * - If a philosopher dies, it will hang the semaphore
+ * so that no other philosopher could print. 
  * - The release happens in the end_process() function 
  * after signaling the sem_end to the wait_process()
  */
-int check_dead(t_philo *philo)
+int	check_dead(t_philo *philo)
 {
 	size_t	time;
-	
+
 	if (sem_wait(philo->prog->sem_shared) != 0)
-		return (non_blocking_error_msg_ret("Error in check_dead from sem_wait", 0));
+		return (
+			error_msg_ret(
+				"Error: check_dead from sem_wait",
+				0));
 	else
 	{
 		time = get_current_time();
@@ -45,7 +49,6 @@ int check_dead(t_philo *philo)
 	}
 }
 
-
 void	*monitor_routine(void *v_philo)
 {
 	t_philo	*philo;
@@ -59,7 +62,6 @@ void	*monitor_routine(void *v_philo)
 		}
 	}
 	return (NULL);
-
 }
 
 /**
@@ -75,7 +77,7 @@ int	philo_routine(t_philo *philo)
 	{
 		sem_wait(philo->prog->sem_activate);
 		if (philo->prog->philo_count == 1)
-			continue;
+			continue ;
 		if (ft_pick_forks(philo))
 		{
 			sem_post(philo->prog->sem_activate);
@@ -84,7 +86,7 @@ int	philo_routine(t_philo *philo)
 		}
 		else
 		{
-			printf("Failed to pick fork\n");
+			error_msg("Error: philo_routine from sem_wait\n");
 			sem_post(philo->prog->sem_activate);
 			end_process(philo);
 			return (1);

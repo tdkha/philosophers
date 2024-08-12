@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:37 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/12 22:02:45 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 23:13:01 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ static int	ft_philos_init(t_program *prog)
 	{
 		prog->philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		if (!prog->philos[i])
-			return (non_blocking_error_msg_ret("Failed to malloc type (t_philo *)\n", 0));
+			return (
+				error_msg_ret(
+					"Failed to malloc type (t_philo *)\n",
+					0));
 		memset(prog->philos[i], 0, sizeof(t_philo));
 		prog->philos[i]->id = i;
 		prog->philos[i]->start_ms = get_current_time();
@@ -45,10 +48,10 @@ static int	ft_philos_init(t_program *prog)
  * <4> sem_end
  * 
  * Description: 
- * - sem_shared counter is 1 since we want only want operation at a time like printf
+ * - sem_shared counter is set to 1
  * - sem_forks counter is equal to a number of forks (or philosophers)
  * - sem_activate counter is equal to a half of philosophers (odd or even scheme)
- * - sem_end is zero semaphore that will block until the sem_post() is called
+ * - sem_end counter is a zero semaphore
  */
 static int	ft_sem_init(t_program *prog)
 {
@@ -65,7 +68,8 @@ static int	ft_sem_init(t_program *prog)
 	if (prog->sem_forks == SEM_FAILED)
 		return (0);
 	sem_unlink("activate");
-	prog->sem_activate = sem_open("activate", O_CREAT, 0644, prog->philo_count / 2);
+	prog->sem_activate = sem_open(
+			"activate", O_CREAT, 0644, prog->philo_count / 2);
 	if (prog->sem_activate == SEM_FAILED)
 		return (0);
 	sem_unlink("end");

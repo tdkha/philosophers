@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:59:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/12 12:09:21 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 23:16:05 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,22 @@ int	ft_drop_forks(t_philo *philo)
 
 	status = sem_post(philo->prog->sem_forks);
 	if (status != 0)
-		return (non_blocking_error_msg_ret("Error in ft_drop_forks from sem_wait()\n", 0));
+		return (
+			error_msg_ret("Error: ft_drop_forks from sem_wait()\n", 0));
 	status = sem_post(philo->prog->sem_forks);
 	if (status != 0)
-		return (non_blocking_error_msg_ret("Error in ft_drop_forks from sem_post()\n", 0));
+		return (error_msg_ret("Error: ft_drop_forks from sem_post()\n", 0));
 	return (1);
 }
 
 int	ft_eat(t_philo *philo)
-{		
+{
 	if (sem_wait(philo->prog->sem_shared) != 0)
-		return (non_blocking_error_msg_ret("Error in ft_eat from sem_wait()\n", 0));
+		return (error_msg_ret("Error: ft_eat from sem_wait()\n", 0));
 	philo->meal_eaten++;
 	philo->last_meal_ms = get_current_time();
 	if (sem_post(philo->prog->sem_shared) != 0)
-		return (non_blocking_error_msg_ret("Error in ft_eat from sem_post()\n", 0));
+		return (error_msg_ret("Error: ft_eat from sem_post()\n", 0));
 	if (philo_msg(philo, "is eating") == 0)
 		return (0);
 	ft_usleep(philo->prog->time_eat);
@@ -62,10 +63,10 @@ int	ft_eat(t_philo *philo)
 	return (1);
 }
 
-int ft_sleep_think(t_philo *philo)
+int	ft_sleep_think(t_philo *philo)
 {
 	int	status;
-	
+
 	status = philo_msg(philo, "is sleeping");
 	if (status == 0)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/08 15:11:57 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 23:13:01 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <semaphore.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <sys/wait.h>
+
 //--------------------------------------------------
 // RE_DEFINITION
 //--------------------------------------------------
@@ -56,8 +58,8 @@ typedef struct s_philo
  * @param time_sleep time for sleeping
  * @param philos array of philosophers
  * @param sem_shared a shared semaphore to be used among general functions
- * @param sem_forks a semephore that represents forks for n philosophers
- * @param sem_activated a semaphore that represents the currently acivated philosophers
+ * @param sem_forks a semephore representing forks 
+ * @param sem_activated a semaphore representing currently acivated philosophers
  * @param sem_end a zero semaphore used to notify the end of the program
  * 
  */
@@ -92,20 +94,16 @@ void	*ft_calloc(size_t count, size_t size);
 // UTILS
 //--------------------------------------------------
 
-size_t	get_current_time();
+size_t	get_current_time(void);
 int		ft_usleep(size_t milliseconds);
 int		check_dead(t_philo *philo);
-int		ft_min(int a, int b);
-int		ft_max(int a, int b);
 
 //--------------------------------------------------
 // PRINT MESSAGE
 //--------------------------------------------------
 
-void	non_blocking_error_msg(char *str);
-int		non_blocking_error_msg_ret(char *str, int val);
-void	error_msg(char *str, sem_t *sem_shared);
-int		error_msg_ret(char *str, sem_t *sem_shared, int return_val);
+void	error_msg(char *str);
+int		error_msg_ret(char *str, int val);
 int		philo_msg(t_philo *philo, char *str);
 
 //--------------------------------------------------
@@ -130,10 +128,10 @@ void	wait_process(t_program *prog);
 int		ft_pick_forks(t_philo *philo);
 int		ft_drop_forks(t_philo *philo);
 int		ft_eat(t_philo *philo);
-int 	ft_sleep_think(t_philo *philo);
+int		ft_sleep_think(t_philo *philo);
 int		philo_routine(t_philo *philo);
 void	*monitor_routine(void *v_philo);
-void	*dead_routine(void *v_philo);
+
 //--------------------------------------------------
 // MAIN PROGRAM
 //--------------------------------------------------

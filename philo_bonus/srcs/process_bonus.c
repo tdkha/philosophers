@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:26:19 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/12 21:56:28 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 23:14:36 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	end_process(t_philo *philo)
 	{
 		if (sem_post(philo->prog->sem_end) != 0)
 		{
-			error_msg("Error in end_process from sem_post()\n", philo->prog->sem_shared);
+			error_msg("Error: end_process from sem_post()\n");
 			exit(1);
 		}
-		i--;;
+		i--;
 	}
 }
 
@@ -46,11 +46,13 @@ int	create_process(t_program *prog)
 			return (0);
 		else if (prog->philos[i]->pid == 0)
 		{
-			if (pthread_create(&monitor_thrd, NULL, monitor_routine, (void *) prog->philos[i]))
+			if (pthread_create(
+					&monitor_thrd, NULL,
+					monitor_routine, (void *) prog->philos[i]))
 				return (0);
-			code = philo_routine(prog->philos[i]);
 			if (pthread_detach(monitor_thrd))
 				return (0);
+			code = philo_routine(prog->philos[i]);
 			exit(code);
 		}
 		++i;
@@ -68,11 +70,11 @@ void	wait_process(t_program *prog)
 		sem_wait(prog->sem_end);
 		++i;
 	}
-	i = 1;
+	i = 0;
 	while (i < prog->philo_count)
 	{
-		kill(prog->philos[i]->pid, SIGKILL);	
+		kill(prog->philos[i]->pid, SIGKILL);
+		waitpid(prog->philos[i]->pid, NULL, 0);
 		++i;
 	}
-	kill(prog->philos[0]->pid, SIGKILL); 
 }
