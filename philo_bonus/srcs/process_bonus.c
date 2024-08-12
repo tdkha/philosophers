@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:26:19 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/12 23:14:36 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 00:44:24 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	create_process(t_program *prog)
 					&monitor_thrd, NULL,
 					monitor_routine, (void *) prog->philos[i]))
 				return (0);
+			code = philo_routine(prog->philos[i]);
 			if (pthread_detach(monitor_thrd))
 				return (0);
-			code = philo_routine(prog->philos[i]);
 			exit(code);
 		}
 		++i;

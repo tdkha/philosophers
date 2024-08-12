@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:59:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/12 23:16:05 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 00:37:24 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,22 @@ int	ft_eat(t_philo *philo)
 {
 	if (sem_wait(philo->prog->sem_shared) != 0)
 		return (error_msg_ret("Error: ft_eat from sem_wait()\n", 0));
-	philo->meal_eaten++;
+	++philo->meal_eaten;
 	philo->last_meal_ms = get_current_time();
+	if (philo_msg(philo, "is eating") == 0)
+	{
+		sem_post(philo->prog->sem_shared);
+		return (0);
+	}
+	if (philo->meal_eaten == philo->prog->must_eat)
+	{
+		sem_post(philo->prog->sem_end);
+	}
 	if (sem_post(philo->prog->sem_shared) != 0)
 		return (error_msg_ret("Error: ft_eat from sem_post()\n", 0));
-	if (philo_msg(philo, "is eating") == 0)
-		return (0);
 	ft_usleep(philo->prog->time_eat);
 	if (!ft_drop_forks(philo))
 		return (0);
-	if (philo->meal_eaten == philo->prog->must_eat)
-		sem_post(philo->prog->sem_end);
 	return (1);
 }
 

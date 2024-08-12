@@ -11,4 +11,6 @@
 	a. Create another lock for printing purpose  ✅
 	b. Lock and unlock when a whole thing is done.
 
-3. The bonus hangs
+3. Printf cannot work correctly if not flushed -> build simple write_msg function ✅
+
+4. Inconsistency in meal eaten

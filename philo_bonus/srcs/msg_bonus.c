@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:17:18 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/12 23:13:01 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 01:10:36 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,33 @@ int	error_msg_ret(char *str, int val)
 	return (val);
 }
 
+void write_msg(size_t time, int id, const char *msg)
+{
+    char	buffer[420];
+    char	time_str[20];
+    char	id_str[10];
+    int		len;
+    int		i;
+
+	len = 0;
+	i = 0;
+    ultoa(time, time_str);
+    for (i = 0; time_str[i] != '\0'; i++)
+        buffer[len++] = time_str[i];
+    buffer[len++] = ' ';
+    itoa(id, id_str);
+    for (i = 0; id_str[i] != '\0'; i++)
+        buffer[len++] = id_str[i];
+    buffer[len++] = ' ';
+    for (i = 0; msg[i] != '\0'; i++)
+    {
+		buffer[len++] = msg[i];
+	}
+    buffer[len++] = '\n';
+    (void)!write(1, buffer, len);
+}
+
+
 int	philo_msg(t_philo *philo, char *str)
 {
 	size_t	time;
@@ -39,7 +66,7 @@ int	philo_msg(t_philo *philo, char *str)
 		error_msg("Error: philo_msg from sem_wait()\n");
 		return (0);
 	}
-	printf("%zu %d %s\n", time, philo->id + 1, str);
+	write_msg(time, philo->id +1, str);
 	if (sem_post(philo->prog->sem_print) != 0)
 	{
 		error_msg("Error: philo_msg from sem_post()\n");

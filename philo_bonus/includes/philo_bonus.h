@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/12 23:13:01 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 01:05:07 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ void	*ft_calloc(size_t count, size_t size);
 size_t	get_current_time(void);
 int		ft_usleep(size_t milliseconds);
 int		check_dead(t_philo *philo);
-
+void 	itoa(int n, char *str);
+void 	ultoa(size_t n, char *str);
 //--------------------------------------------------
 // PRINT MESSAGE
 //--------------------------------------------------

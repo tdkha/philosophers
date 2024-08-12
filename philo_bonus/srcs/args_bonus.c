@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:16:49 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/12 23:17:34 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 23:58:56 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	valid_ulong_check(const char *str, int sign)
 	while (*str >= '0' && *str <= '9')
 	{
 		res = res * 10 + (*str - '0');
-		if ((sign == 1 && res > ULONG_MAX))
+		if ((sign == 1 && (unsigned long)res > ULONG_MAX))
 			return (0);
 		str++;
 	}

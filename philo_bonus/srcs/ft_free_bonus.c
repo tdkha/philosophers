@@ -6,13 +6,13 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:23:47 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/12 23:13:24 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 00:01:41 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_bonus.h"
 
-static int	ft_sem_unlink(t_program *prog)
+static int	ft_sem_unlink(void)
 {
 	int	status;
 
@@ -93,7 +93,7 @@ int	ft_free(t_program *prog)
 		return (
 			error_msg_ret(
 				"Error: ft_sem_destroy from sem_close()\n", 0));
-	if (ft_sem_unlink(prog) == 0)
+	if (ft_sem_unlink() == 0)
 		return (
 			error_msg_ret(
 				"Error: ft_sem_unlink from sem_unlink()\n", 0));
