@@ -6,12 +6,12 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:49 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/05 14:09:07 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 12:09:21 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../../includes/philo_bonus.h"
+#include "../includes/philo_bonus.h"
 
 long	ft_atold(const char *str)
 {

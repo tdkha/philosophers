@@ -6,11 +6,11 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:23:47 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/08 15:11:54 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 12:09:21 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo_bonus.h"
+#include "../includes/philo_bonus.h"
 
 static int	ft_sem_unlink(t_program *prog)
 {

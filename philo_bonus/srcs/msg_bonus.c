@@ -6,11 +6,11 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:17:18 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/08 14:30:00 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 12:09:21 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo_bonus.h"
+#include "../includes/philo_bonus.h"
 
 void	non_blocking_error_msg(char *str)
 {

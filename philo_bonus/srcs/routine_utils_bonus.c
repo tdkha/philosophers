@@ -6,11 +6,11 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:59:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/08 15:05:36 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 12:09:21 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo_bonus.h"
+#include "../includes/philo_bonus.h"
 
 int	ft_pick_forks(t_philo *philo)
 {

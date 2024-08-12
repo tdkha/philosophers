@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/09 14:10:05 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 12:31:52 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ void	*ft_calloc(size_t count, size_t size);
 size_t	get_current_time();
 int		ft_usleep(size_t milliseconds);
 int		check_dead(t_philo *philo);
-int		ft_min(int a, int b);
-int		ft_max(int a, int b);
 
 //--------------------------------------------------
 // PRINT MESSAGE

@@ -6,12 +6,12 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:17 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/05 14:08:56 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 12:09:08 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../../includes/philo_bonus.h"
+#include "../includes/philo_bonus.h"
 
 static int	valid_num_check(const char *str, int sign)
 {

@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:22:53 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/09 12:59:42 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/12 12:31:39 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,4 @@ int	check_dead(t_philo *philo)
 	}
 	pthread_mutex_unlock(philo->mt_lock);
 	return (0);
-}
-
-int	ft_min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	else
-		return (b);
-}
-
-int	ft_max(int a, int b)
-{
-	if (a > b)
-		return (a);
-	else
-		return (b);
 }
