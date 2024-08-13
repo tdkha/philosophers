@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:49:09 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/09 13:09:48 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 12:50:19 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static int	ft_philos_init(t_program *prog)
 	{
 		prog->philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		if (!prog->philos[i])
-			return (error_msg_ret("Failed to malloc type (t_philo *)\n", &prog->mt_lock, 0));
+			return (error_msg_ret("Failed to malloc type (t_philo *)\n",
+					&prog->mt_lock, 0));
 		memset(prog->philos[i], 0, sizeof(t_philo));
 		prog->philos[i]->id = i;
 		prog->philos[i]->philo_count = prog->philo_count;
@@ -73,16 +74,19 @@ static int	ft_mutexes_init(t_program *prog)
 	i = 0;
 	if (pthread_mutex_init(&prog->mt_lock, NULL))
 	{
-		return (error_msg_ret("Failed to init mutex\n", &prog->mt_lock ,0));
+		return (error_msg_ret("Failed to init mutex\n",
+				&prog->mt_lock, 0));
 	}
 	if (pthread_mutex_init(&prog->mt_print, NULL))
 	{
-		return (error_msg_ret("Failed to init mutex\n", &prog->mt_lock ,0));
+		return (error_msg_ret("Failed to init mutex\n",
+				&prog->mt_lock, 0));
 	}
 	while (i < prog->philo_count)
 	{
 		if (pthread_mutex_init(&prog->mt_forks[i], NULL))
-			return (error_msg_ret("Failed to init mutex\n", &prog->mt_lock ,0));
+			return (error_msg_ret("Failed to init mutex\n",
+					&prog->mt_lock, 0));
 		++i;
 	}
 	return (1);
@@ -118,7 +122,6 @@ int	ft_init(int ac, char **av, t_program *prog)
 		prog->must_eat = ft_atold(av[5]);
 	else
 		prog->must_eat = -1;
-	
 	if (!ft_alloc(prog))
 		return (0);
 	if (!ft_mutexes_init(prog))

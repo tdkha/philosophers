@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:37 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 09:59:48 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 12:35:31 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,22 @@ static int	ft_sem_init(t_program *prog)
 	prog->sem_end = sem_open("end", O_CREAT, 0644, 0);
 	if (prog->sem_end == SEM_FAILED)
 		return (0);
-	sem_unlink("dead");
-	prog->sem_dead = sem_open("dead", O_CREAT, 0644, 0);
-	if (prog->sem_dead == SEM_FAILED)
-		return (0);
 	return (1);
+}
+
+/**
+ * Quickly die if time die is smaller than the others
+ */
+static void	reassign_time(t_program *prog)
+{
+	if (prog->time_eat > prog->time_die)
+	{
+		prog->time_eat = prog->time_die + 6;
+	}
+	if (prog->time_sleep > prog->time_die)
+	{
+		prog->time_sleep = prog->time_die + 6;
+	}
 }
 
 int	ft_init(int ac, char **av, t_program *prog)
@@ -91,6 +102,7 @@ int	ft_init(int ac, char **av, t_program *prog)
 	prog->time_die = ft_atold(av[2]);
 	prog->time_eat = ft_atold(av[3]);
 	prog->time_sleep = ft_atold(av[4]);
+	reassign_time(prog);
 	if (ac == 6)
 		prog->must_eat = ft_atold(av[5]);
 	else

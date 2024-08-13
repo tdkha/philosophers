@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 09:55:29 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 12:05:30 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * - The release happens in the end_process() function 
  * after signaling the sem_end to the wait_process()
  */
-int	check_dead(t_philo *philo)
+static int	check_dead(t_philo *philo)
 {
 	size_t	time;
 
@@ -30,10 +30,6 @@ int	check_dead(t_philo *philo)
 	else
 	{
 		time = get_current_time();
-		if (philo->meal_eaten == philo->prog->must_eat + 1)
-		{
-			sem_post(philo->prog->sem_end);
-		}
 		if (time - philo->last_meal_ms >= philo->prog->time_die)
 		{
 			philo_msg(philo, "died");
@@ -46,7 +42,6 @@ int	check_dead(t_philo *philo)
 			sem_post(philo->prog->sem_shared);
 			return (0);
 		}
-		
 	}
 }
 
@@ -61,6 +56,31 @@ void	monitor_routine(t_philo *philo)
 	}
 }
 
+static int	repeated_cycle(t_philo *philo)
+{
+	if (ft_pick_forks(philo))
+	{
+		sem_post(philo->prog->sem_activate);
+		if (!ft_eat(philo))
+		{
+			end_process(philo);
+			return (0);
+		}
+		if (!ft_sleep_think(philo))
+		{
+			end_process(philo);
+			return (0);
+		}
+	}
+	else
+	{
+		sem_post(philo->prog->sem_activate);
+		end_process(philo);
+		return (0);
+	}
+	return (1);
+}
+
 /**
  * Routine of a philosopher
  * 
@@ -70,7 +90,7 @@ void	*philo_routine(void *v_philo)
 {
 	t_philo	*philo;
 
-	philo = (t_philo*)v_philo;
+	philo = (t_philo *) v_philo;
 	if (philo->id % 2 != 0)
 		ft_usleep(10);
 	while (1)
@@ -78,20 +98,8 @@ void	*philo_routine(void *v_philo)
 		sem_wait(philo->prog->sem_activate);
 		if (philo->prog->philo_count == 1)
 			continue ;
-		if (ft_pick_forks(philo))
-		{
-			sem_post(philo->prog->sem_activate);
-			if (!ft_eat(philo))
-				end_process(philo);
-			if (!ft_sleep_think(philo))
-				end_process(philo);
-		}
-		else
-		{
-			sem_post(philo->prog->sem_activate);
-			end_process(philo);
-			return (NULL);
-		}
+		if (repeated_cycle(philo) == 0)
+			break ;
 	}
 	return (NULL);
 }

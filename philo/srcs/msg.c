@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:49:06 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/09 15:02:13 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 12:45:02 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ int	philo_msg(t_philo *philo, char *str)
 {
 	size_t	time;
 
-	if(check_dead(philo))
+	if (check_dead(philo))
 	{
 		return (0);
 	}
-	time = get_current_time(philo->mt_lock) - philo->start_ms;
+	time = get_current_time() - philo->start_ms;
 	pthread_mutex_lock(philo->mt_print);
 	if (*philo->terminate == 1)
 		return (pthread_mutex_unlock(philo->mt_print), 0);
@@ -59,4 +59,3 @@ int	philo_msg(t_philo *philo, char *str)
 	pthread_mutex_unlock(philo->mt_print);
 	return (1);
 }
-

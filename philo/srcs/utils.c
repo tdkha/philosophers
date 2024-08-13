@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:22:53 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/12 12:31:39 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 12:48:24 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,16 @@ size_t	get_current_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-int ft_usleep(size_t milliseconds)
+int	ft_usleep(size_t milliseconds)
 {
-    size_t start = get_current_time();
-    while ((get_current_time() - start) < milliseconds)
-    {
-        usleep(1000);
-    }
-    return (1);
+	size_t	start;
+
+	start = get_current_time();
+	while ((get_current_time() - start) < milliseconds)
+	{
+		usleep(1000);
+	}
+	return (1);
 }
 
 int	check_dead(t_philo *philo)

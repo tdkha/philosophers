@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:17:27 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 01:04:38 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 12:36:18 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,55 +30,67 @@ int	ft_usleep(size_t milliseconds)
 	return (0);
 }
 
-void itoa(int n, char *str)
+static void	reverse_string(char *str, int length)
 {
-    int i = 0;
-    int start = 0;
-    int sign = n;
+	int		start;
+	char	temp;
 
-    if (n == 0) {
-        str[i++] = '0';
-        str[i] = '\0';
-        return;
-    }
-    if (sign < 0) {
-        n = -n;
-    }
-    while (n > 0) {
-        str[i++] = (n % 10) + '0';
-        n /= 10;
-    }
-    if (sign < 0) {
-        str[i++] = '-';
-    }
-    str[i] = '\0';
-    for (start = 0, --i; start < i; ++start, --i)
+	start = 0;
+	--length;
+	while (start < length)
 	{
-        char temp = str[start];
-        str[start] = str[i];
-        str[i] = temp;
-    }
+		temp = str[start];
+		str[start] = str[length];
+		str[length] = temp;
+		++start;
+		--length;
+	}
 }
 
-void ultoa(size_t n, char *str)
+void	itoa(int n, char *str)
 {
-    int i = 0;
-    int start;
+	int	i;
+	int	sign;
 
-    if (n == 0) {
-        str[i++] = '0';
-        str[i] = '\0';
-        return;
-    }
-    while (n > 0) {
-        str[i++] = (n % 10) + '0';
-        n /= 10;
-    }
-    str[i] = '\0';
-    for (start = 0, --i; start < i; ++start, --i)
+	i = 0;
+	sign = n;
+	if (n == 0)
 	{
-        char temp = str[start];
-        str[start] = str[i];
-        str[i] = temp;
-    }
+		str[i++] = '0';
+		str[i] = '\0';
+		return ;
+	}
+	if (sign < 0)
+		n = -n;
+	while (n > 0)
+	{
+		str[i++] = (n % 10) + '0';
+		n /= 10;
+	}
+	if (sign < 0)
+	{
+		str[i++] = '-';
+	}
+	str[i] = '\0';
+	reverse_string(str, i);
+}
+
+void	ultoa(size_t n, char *str)
+{
+	int	i;
+
+	i = 0;
+	if (n == 0)
+	{
+		str[i++] = '0';
+		str[i] = '\0';
+		return ;
+	}
+	while (n > 0)
+	{
+		str[i++] = (n % 10) + '0';
+		n /= 10;
+	}
+	str[i] = '\0';
+	reverse_string(str, i);
 }

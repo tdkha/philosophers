@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 09:59:32 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 12:03:14 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef struct s_program
 	sem_t		*sem_activate;
 	sem_t		*sem_end;
 	sem_t		*sem_print;
-	sem_t		*sem_dead;
 }	t_program;
 
 //--------------------------------------------------
@@ -97,9 +96,9 @@ void	*ft_calloc(size_t count, size_t size);
 
 size_t	get_current_time(void);
 int		ft_usleep(size_t milliseconds);
-int		check_dead(t_philo *philo);
-void 	itoa(int n, char *str);
-void 	ultoa(size_t n, char *str);
+void	itoa(int n, char *str);
+void	ultoa(size_t n, char *str);
+
 //--------------------------------------------------
 // PRINT MESSAGE
 //--------------------------------------------------
@@ -107,7 +106,8 @@ void 	ultoa(size_t n, char *str);
 void	error_msg(char *str);
 int		error_msg_ret(char *str, int val);
 int		philo_msg(t_philo *philo, char *str);
-void	 write_msg(size_t time, int id, const char *msg);
+void	write_msg(size_t time, int id, const char *msg);
+
 //--------------------------------------------------
 // PROGRAM UTILS
 //--------------------------------------------------

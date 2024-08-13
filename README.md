@@ -1,4 +1,4 @@
-# Fix check list
+# Check list
 
 1.	When time_eat or time_sleep is larger than time_die -> the program should die.  ✅
 
@@ -13,4 +13,9 @@
 
 3. Printf cannot work correctly if not flushed -> build simple write_msg function ✅
 
-4. Inconsistency in meal eaten
+4. Inconsistency in meal eaten ✅
+
+-	Solution :
+
+	<1>	usleep after thinking
+	<2> Let the philo sleep after hitting the must_eat thresold before exiting

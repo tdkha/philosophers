@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:23:47 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 10:00:05 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 11:26:43 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ static int	ft_sem_unlink(void)
 	status = sem_unlink("end");
 	if (status != 0)
 		return (0);
-	status = sem_unlink("dead");
-	if (status != 0)
-		return (0);
 	return (1);
 }
 
@@ -56,9 +53,6 @@ static int	ft_sem_destroy(t_program *prog)
 	if (status != 0)
 		return (0);
 	status = sem_close(prog->sem_end);
-	if (status != 0)
-		return (0);
-	status = sem_close(prog->sem_dead);
 	if (status != 0)
 		return (0);
 	return (1);

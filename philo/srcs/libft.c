@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:56:32 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/09 12:59:42 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 12:50:33 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ long	ft_atold(const char *str)
 	}
 	return (res * sign);
 }
-
 
 size_t	ft_strlen(const char *s)
 {

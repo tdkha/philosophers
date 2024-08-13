@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:17:44 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/09 15:08:14 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 12:45:16 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static inline int	generic_check(
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
-			return(0);
+			return (0);
 		i++;
 	}
 	if (!str[i] || !ft_isdigit(str[i]))
@@ -101,7 +101,7 @@ int	ft_arg_check(int ac, char **av)
 	if (ac < 2)
 		return (0);
 	while (i < ac)
-{
+	{
 		if (!generic_check(av[i], 0))
 			return (0);
 		if (i == 1 || i == ac - 1)

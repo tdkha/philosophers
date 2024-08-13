@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:22:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 01:32:49 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 10:11:23 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ static int	ft_eat(t_philo *philo)
 static int	ft_sleep_think(t_philo *philo)
 {
 	if (!philo_msg(philo, "is sleeping"))
-		return(0);
+		return (0);
 	ft_usleep(philo->time_sleep);
 	if (!philo_msg(philo, "is thinking"))
-		return(0);
+		return (0);
 	return (1);
 }
 
