@@ -21,3 +21,7 @@
 	<1>	usleep after thinking
 
 	<2> Let the philo sleep after hitting the must_eat thresold before exiting
+
+5. Inconsistency in timestamp (bonus)
+
+6. The program still prints after a philosopher has died
