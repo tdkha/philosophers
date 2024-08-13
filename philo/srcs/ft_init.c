@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:49:09 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 12:50:19 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 16:58:20 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,21 @@
  * of left and right forks to avoid circular picking 
  * where all philosphers pick the left forks first.
  */
-static void	ft_fork_assign(t_program *prog, int i)
+static void	assign(t_program *prog, int i)
 {
+	prog->philos[i]->id = i;
+	prog->philos[i]->philo_count = prog->philo_count;
+	prog->philos[i]->must_eat = prog->must_eat;
+	prog->philos[i]->terminate = &prog->terminate;
+	prog->philos[i]->philo_full_count = &prog->philo_full_count;
+	prog->philos[i]->mt_lock = &prog->mt_lock;
+	prog->philos[i]->mt_print = &prog->mt_print;
+	prog->philos[i]->mt_terminate = &prog->mt_terminate;
+	prog->philos[i]->start_ms = get_current_time();
+	prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
+	prog->philos[i]->time_die = prog->time_die;
+	prog->philos[i]->time_sleep = prog->time_sleep;
+	prog->philos[i]->time_eat = prog->time_eat;
 	prog->philos[i]->left_fork = &prog->mt_forks[i];
 	prog->philos[i]->right_fork = &prog->mt_forks[(i + 1) % prog->philo_count];
 }
@@ -43,19 +56,7 @@ static int	ft_philos_init(t_program *prog)
 			return (error_msg_ret("Failed to malloc type (t_philo *)\n",
 					&prog->mt_lock, 0));
 		memset(prog->philos[i], 0, sizeof(t_philo));
-		prog->philos[i]->id = i;
-		prog->philos[i]->philo_count = prog->philo_count;
-		prog->philos[i]->must_eat = prog->must_eat;
-		prog->philos[i]->terminate = &prog->terminate;
-		prog->philos[i]->philo_full_count = &prog->philo_full_count;
-		prog->philos[i]->mt_lock = &prog->mt_lock;
-		prog->philos[i]->mt_print = &prog->mt_print;
-		prog->philos[i]->start_ms = get_current_time();
-		prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
-		prog->philos[i]->time_die = prog->time_die;
-		prog->philos[i]->time_sleep = prog->time_sleep;
-		prog->philos[i]->time_eat = prog->time_eat;
-		ft_fork_assign(prog, i);
+		assign(prog, i);
 	}
 	return (1);
 }
@@ -73,15 +74,14 @@ static int	ft_mutexes_init(t_program *prog)
 
 	i = 0;
 	if (pthread_mutex_init(&prog->mt_lock, NULL))
-	{
 		return (error_msg_ret("Failed to init mutex\n",
 				&prog->mt_lock, 0));
-	}
 	if (pthread_mutex_init(&prog->mt_print, NULL))
-	{
 		return (error_msg_ret("Failed to init mutex\n",
 				&prog->mt_lock, 0));
-	}
+	if (pthread_mutex_init(&prog->mt_terminate, NULL))
+		return (error_msg_ret("Failed to init mutex\n",
+				&prog->mt_lock, 0));
 	while (i < prog->philo_count)
 	{
 		if (pthread_mutex_init(&prog->mt_forks[i], NULL))

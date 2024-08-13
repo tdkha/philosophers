@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 12:43:39 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 17:15:25 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_philo
 	t_mutex				*right_fork;
 	t_mutex				*mt_lock;
 	t_mutex				*mt_print;
+	t_mutex				*mt_terminate;
 }	t_philo;
 
 typedef struct s_program
@@ -66,6 +67,7 @@ typedef struct s_program
 	size_t		time_sleep;
 	t_mutex		mt_lock;
 	t_mutex		mt_print;
+	t_mutex		mt_terminate;
 	t_mutex		*mt_forks;
 	t_philo		**philos;
 }	t_program;
@@ -87,6 +89,7 @@ void	*ft_calloc(size_t count, size_t size);
 size_t	get_current_time(void);
 int		ft_usleep(size_t milliseconds);
 int		check_dead(t_philo *philo);
+void	print_end(t_program *prog, t_philo *philo);
 
 //--------------------------------------------------
 // PRINT MESSAGE

@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:49:06 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 12:45:02 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 17:09:03 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ int	philo_msg(t_philo *philo, char *str)
 	}
 	time = get_current_time() - philo->start_ms;
 	pthread_mutex_lock(philo->mt_print);
-	if (*philo->terminate == 1)
-		return (pthread_mutex_unlock(philo->mt_print), 0);
 	printf("%zu %d %s\n", time, philo->id + 1, str);
 	pthread_mutex_unlock(philo->mt_print);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:22:53 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 12:48:24 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 17:15:45 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,24 @@ int	ft_usleep(size_t milliseconds)
 
 int	check_dead(t_philo *philo)
 {
-	pthread_mutex_lock(philo->mt_lock);
+	pthread_mutex_lock(philo->mt_terminate);
 	if (philo->terminate && *philo->terminate == 1)
 	{
-		pthread_mutex_unlock(philo->mt_lock);
+		pthread_mutex_unlock(philo->mt_terminate);
 		return (1);
 	}
-	pthread_mutex_unlock(philo->mt_lock);
+	pthread_mutex_unlock(philo->mt_terminate);
 	return (0);
+}
+
+void	print_end(t_program *prog, t_philo *philo)
+{
+	pthread_mutex_lock(&prog->mt_print);
+	if (prog->must_eat != -1
+		&& prog->philo_full_count == prog->philo_count)
+		printf("Every philosopher ate %d times\n", prog->must_eat);
+	else
+		printf("%zu %d died\n",
+			get_current_time() - philo->start_ms, philo->id + 1);
+	pthread_mutex_unlock(&prog->mt_print);
 }

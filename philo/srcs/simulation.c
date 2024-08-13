@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 22:57:24 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 12:47:47 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 17:15:38 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,10 @@ static int	ft_monitor_cond(t_program *prog)
 			|| prog->philo_full_count >= prog->philo_count
 		)
 		{
+			pthread_mutex_lock(&prog->mt_terminate);
 			prog->terminate = 1;
-			if (prog->must_eat != -1
-				&& prog->philo_full_count == prog->philo_count)
-				printf("Every philosopher ate %d times\n", prog->must_eat);
-			else
-				printf("%zu %d died\n",
-					get_current_time() - prog->philos[i]->start_ms, i + 1);
+			pthread_mutex_unlock(&prog->mt_terminate);
+			print_end(prog, prog->philos[i]);
 			pthread_mutex_unlock(&prog->mt_lock);
 			return (1);
 		}
