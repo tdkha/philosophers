@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:23:47 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 11:26:43 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 18:07:40 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,16 @@ int	ft_free(t_program *prog)
 {
 	if (sem_post(prog->sem_print) != 0)
 	{
-		error_msg("Error: end_process from sem_post\n");
+		error_msg("philo_bonus: end_process: sem_post\n");
 	}
 	if (ft_sem_destroy(prog) == 0)
 		return (
 			error_msg_ret(
-				"Error: ft_sem_destroy from sem_close()\n", 0));
+				"philo_bonus: ft_sem_destroy: sem_close()\n", 0));
 	if (ft_sem_unlink() == 0)
 		return (
 			error_msg_ret(
-				"Error: ft_sem_unlink from sem_unlink()\n", 0));
+				"philo_bonus: ft_sem_unlink: sem_unlink()\n", 0));
 	ft_philos_clean(prog);
 	free(prog);
 	return (1);

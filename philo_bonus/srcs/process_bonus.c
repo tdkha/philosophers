@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:26:19 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 11:52:10 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 18:08:07 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	end_process(t_philo *philo)
 	{
 		if (sem_post(philo->prog->sem_end) != 0)
 		{
-			error_msg("Error: end_process from sem_post()\n");
+			error_msg("philo_bonus: end_process: sem_post()\n");
 			exit(1);
 		}
 		i--;
@@ -44,12 +44,10 @@ int	create_process(t_program *prog)
 			return (0);
 		else if (prog->philos[i]->pid == 0)
 		{
-			pthread_create(
-				&thread, NULL,
-				philo_routine, (void *) prog->philos[i]);
+			pthread_create(&thread, NULL, philo_routine, (void *) prog->philos[i]);
 			monitor_routine(prog->philos[i]);
-			pthread_join(thread, NULL);
-			return (9);
+			// pthread_join(thread, NULL);
+			return (0);
 		}
 		++i;
 	}
@@ -76,6 +74,23 @@ void	wait_process(t_program *prog)
 	while (i < prog->philo_count)
 	{
 		waitpid(prog->philos[i]->pid, NULL, 0);
+		++i;
+	}
+}
+
+void	wait_process_beta(t_program *prog)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	while (i < prog->philo_count)
+	{
+		if (waitpid(-1, &status, 0) == -1)
+		{
+			error_msg("philo_bonus: wait_process: waitpid\n");
+		}
+
 		++i;
 	}
 }
