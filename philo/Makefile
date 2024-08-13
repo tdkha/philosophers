@@ -6,7 +6,7 @@
 #    By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 12:22:18 by ktieu             #+#    #+#              #
-#    Updated: 2024/08/13 09:29:12 by ktieu            ###   ########.fr        #
+#    Updated: 2024/08/13 12:59:27 by ktieu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,6 @@ SRC_FILES		=	$(SRC_DIR)/libft.c \
 					$(SRC_DIR)/simulation.c \
 					$(SRC_DIR)/main.c
 
-
-
 OBJ_DIR			=	obj
 OBJ_FILES		=	$(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -39,7 +37,6 @@ all: $(NAME)
 
 $(NAME): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $(OBJ_FILES) -o $(NAME)
-
 
 clean:
 	rm -rf $(OBJ_DIR)
