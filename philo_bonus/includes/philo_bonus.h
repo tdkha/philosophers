@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 09:51:49 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 09:59:32 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_program
 	sem_t		*sem_activate;
 	sem_t		*sem_end;
 	sem_t		*sem_print;
+	sem_t		*sem_dead;
 }	t_program;
 
 //--------------------------------------------------
