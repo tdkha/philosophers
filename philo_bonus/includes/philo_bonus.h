@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 01:05:07 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 09:51:49 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void 	ultoa(size_t n, char *str);
 void	error_msg(char *str);
 int		error_msg_ret(char *str, int val);
 int		philo_msg(t_philo *philo, char *str);
-
+void	 write_msg(size_t time, int id, const char *msg);
 //--------------------------------------------------
 // PROGRAM UTILS
 //--------------------------------------------------
@@ -130,8 +130,8 @@ int		ft_pick_forks(t_philo *philo);
 int		ft_drop_forks(t_philo *philo);
 int		ft_eat(t_philo *philo);
 int		ft_sleep_think(t_philo *philo);
-int		philo_routine(t_philo *philo);
-void	*monitor_routine(void *v_philo);
+void	*philo_routine(void *v_philo);
+void	monitor_routine(t_philo *philo);
 
 //--------------------------------------------------
 // MAIN PROGRAM

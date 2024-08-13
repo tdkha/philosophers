@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:26:19 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 00:44:24 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 09:52:53 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	create_process(t_program *prog)
 {
 	int			i;
 	int			code;
-	t_thread	monitor_thrd;
+	t_thread	thread;
 
 	i = 0;
 	code = 0;
@@ -47,12 +47,11 @@ int	create_process(t_program *prog)
 		else if (prog->philos[i]->pid == 0)
 		{
 			if (pthread_create(
-					&monitor_thrd, NULL,
-					monitor_routine, (void *) prog->philos[i]))
+					&thread, NULL,
+					philo_routine, (void *) prog->philos[i]))
 				return (0);
-			code = philo_routine(prog->philos[i]);
-			if (pthread_detach(monitor_thrd))
-				return (0);
+			monitor_routine(prog->philos[i]);
+			pthread_join(thread, NULL);
 			exit(code);
 		}
 		++i;
@@ -74,6 +73,11 @@ void	wait_process(t_program *prog)
 	while (i < prog->philo_count)
 	{
 		kill(prog->philos[i]->pid, SIGKILL);
+		++i;
+	}
+	i = 0;
+	while (i < prog->philo_count)
+	{
 		waitpid(prog->philos[i]->pid, NULL, 0);
 		++i;
 	}

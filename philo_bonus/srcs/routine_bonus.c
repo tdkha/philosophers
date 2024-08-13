@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 00:18:52 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/13 09:55:29 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ int	check_dead(t_philo *philo)
 	size_t	time;
 
 	if (sem_wait(philo->prog->sem_shared) != 0)
-		return (
-			error_msg_ret(
-				"Error: check_dead from sem_wait",
-				0));
+		return (0);
 	else
 	{
 		time = get_current_time();
+		if (philo->meal_eaten == philo->prog->must_eat + 1)
+		{
+			sem_post(philo->prog->sem_end);
+		}
 		if (time - philo->last_meal_ms >= philo->prog->time_die)
 		{
-			sem_wait(philo->prog->sem_print);
-			printf("%zu %d died\n", time - philo->start_ms, philo->id + 1);
+			philo_msg(philo, "died");
 			end_process(philo);
 			sem_post(philo->prog->sem_shared);
 			return (1);
@@ -46,14 +46,12 @@ int	check_dead(t_philo *philo)
 			sem_post(philo->prog->sem_shared);
 			return (0);
 		}
+		
 	}
 }
 
-void	*monitor_routine(void *v_philo)
+void	monitor_routine(t_philo *philo)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *)v_philo;
 	while (1)
 	{
 		if (check_dead(philo))
@@ -61,7 +59,6 @@ void	*monitor_routine(void *v_philo)
 			break ;
 		}
 	}
-	return (NULL);
 }
 
 /**
@@ -69,8 +66,11 @@ void	*monitor_routine(void *v_philo)
  * 
  * @return exit_code [0, 1]
  */
-int	philo_routine(t_philo *philo)
+void	*philo_routine(void *v_philo)
 {
+	t_philo	*philo;
+
+	philo = (t_philo*)v_philo;
 	if (philo->id % 2 != 0)
 		ft_usleep(10);
 	while (1)
@@ -81,16 +81,17 @@ int	philo_routine(t_philo *philo)
 		if (ft_pick_forks(philo))
 		{
 			sem_post(philo->prog->sem_activate);
-			if (!ft_eat(philo) || !ft_sleep_think(philo))
+			if (!ft_eat(philo))
+				end_process(philo);
+			if (!ft_sleep_think(philo))
 				end_process(philo);
 		}
 		else
 		{
-			error_msg("Error: philo_routine from sem_wait\n");
 			sem_post(philo->prog->sem_activate);
 			end_process(philo);
-			return (1);
+			return (NULL);
 		}
 	}
-	return (0);
+	return (NULL);
 }
