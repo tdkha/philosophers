@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:23:47 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/15 09:05:05 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 15:59:55 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@ int	ft_sem_clean(t_program *prog)
 	sem_close(prog->sem_shared);
 	sem_close(prog->sem_activate);
 	sem_close(prog->sem_print);
-	sem_close(prog->sem_end);
 	sem_unlink("forks");
 	sem_unlink("shared");
 	sem_unlink("activate");
 	sem_unlink("print");
-	sem_unlink("end");
 	return (1);
 }
 

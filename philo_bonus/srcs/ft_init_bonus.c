@@ -6,11 +6,49 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:37 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/15 10:48:06 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 16:37:47 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_bonus.h"
+
+static void	ft_make_sem_name(t_philo *philo, int id, int i, int j)
+{
+	int		len;
+	char	temp;
+
+	len = 0;
+	philo->sem_name[i++] = 'p';
+	philo->sem_name[i++] = 'h';
+	philo->sem_name[i++] = 'i';
+	philo->sem_name[i++] = 'l';
+	philo->sem_name[i++] = 'o';
+
+	if (id == 0)
+	{
+		philo->sem_name[i++] = '0';
+		philo->sem_name[i] = '\0';
+		return;
+	}
+
+	while (id > 0)
+	{
+		philo->sem_name[i + len] = (id % 10) + '0';
+		id /= 10;
+		++len;
+	}
+
+	// Reverse the digits to correct the order
+	while (j < len / 2)
+	{
+		temp = philo->sem_name[i + j];
+		philo->sem_name[i + j] = philo->sem_name[i + len - 1 - j];
+		philo->sem_name[i + len - 1 - j] = temp;
+		j++;
+	}
+
+	philo->sem_name[i + len] = '\0';
+}
 
 /**
  * Function to malloc and init the propertis of <t_philo> type
@@ -20,23 +58,27 @@
  */
 static int	ft_philos_init(t_program *prog)
 {
-	int	i;
+	int		i;
 
 	i = -1;
 	while (++i < prog->philo_count)
 	{
 		prog->philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		if (!prog->philos[i])
-			return (
-				error_msg_ret(
-					"Failed to malloc type (t_philo *)\n",
-					0));
+			return (error_msg_ret(
+				"philo_bonus: ft_philos_init: malloc()\n", 0));
 		memset(prog->philos[i], 0, sizeof(t_philo));
+		memset(prog->philos[i]->sem_name, 0, 80);
 		prog->philos[i]->id = i;
 		prog->philos[i]->start_ms = get_current_time();
 		prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
 		prog->philos[i]->prog = prog;
-		sem_init(&prog->philos[i]->sem_terminate, 1, 1);
+		ft_make_sem_name(prog->philos[i], i, 0, 0);
+		sem_unlink(prog->philos[i]->sem_name);
+		prog->philos[i]->sem_terminate = sem_open(prog->philos[i]->sem_name, O_CREAT, 0644, 1);
+		if (prog->philos[i]->sem_terminate == SEM_FAILED)
+			return (error_msg_ret(
+				"philo_bonus: ft_philos_init: sem_open()\n", 0));
 	}
 	return (1);
 }
@@ -46,13 +88,11 @@ static int	ft_philos_init(t_program *prog)
  * <1> sem_shared
  * <2> sem_forks
  * <3> sem_activate
- * <4> sem_end
  * 
  * Description: 
  * - sem_shared counter is set to 1
  * - sem_forks counter is equal to a number of forks (or philosophers)
  * - sem_activate counter is equal to a half of philosophers (odd or even scheme)
- * - sem_end counter is a zero semaphore
  */
 static int	ft_sem_init(t_program *prog)
 {
@@ -70,12 +110,8 @@ static int	ft_sem_init(t_program *prog)
 		return (0);
 	sem_unlink("activate");
 	prog->sem_activate = sem_open(
-			"activate", O_CREAT, 0644, prog->philo_count / 2);
+			"activate", O_CREAT, 0644, (prog->philo_count + 1)/ 2);
 	if (prog->sem_activate == SEM_FAILED)
-		return (0);
-	sem_unlink("end");
-	prog->sem_end = sem_open("end", O_CREAT, 0644, 0);
-	if (prog->sem_end == SEM_FAILED)
 		return (0);
 	return (1);
 }

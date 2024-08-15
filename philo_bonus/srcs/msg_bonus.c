@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:17:18 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 18:07:19 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 15:58:11 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	philo_msg(t_philo *philo, char *str)
 	size_t	time;
 
 	time = get_current_time() - philo->start_ms;
+	if (ft_check_terminate(philo))
+		return (1);
 	if (sem_wait(philo->prog->sem_print) != 0)
 	{
 		error_msg("philo_bonus: philo_msg: sem_wait()\n");

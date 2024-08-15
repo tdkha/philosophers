@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/15 10:18:27 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 16:38:41 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,22 @@
 /** 
  * Function to check for philosopher's death
  * 
- * Description:
- * - If a philosopher dies, it will hang the semaphore
- * so that no other philosopher could print. 
- * - The release happens in the end_process() function 
- * after signaling the sem_end to the wait_process()
  */
 static int	check_dead(t_philo *philo)
 {
 	size_t	time;
 
 	if (sem_wait(philo->prog->sem_shared) != 0)
-		return (0);
+		end_process_exit(philo, 1);
 	else
 	{
 		time = get_current_time();
 		if (time - philo->last_meal_ms >= philo->prog->time_die)
 		{
 			philo_msg(philo, "died");
-			end_process(philo);
+			sem_wait(philo->sem_terminate);
+			philo->terminate = 1;
+			sem_post(philo->sem_terminate);
 			sem_post(philo->prog->sem_shared);
 			return (1);
 		}
@@ -43,21 +40,20 @@ static int	check_dead(t_philo *philo)
 			return (0);
 		}
 	}
+	return (0);
 }
 
 static int	check_full(t_philo *philo)
 {
-	size_t	time;
-
 	if (sem_wait(philo->prog->sem_shared) != 0)
-		return (0);
+		end_process_exit(philo , 1);
 	else
 	{
-		time = get_current_time();
-		if (time - philo->last_meal_ms >= philo->prog->time_die)
+		if (philo->meal_eaten == philo->prog->must_eat)
 		{
-			philo_msg(philo, "died");
-			end_process(philo);
+			sem_wait(philo->sem_terminate);
+			philo->terminate = 1;
+			sem_post(philo->sem_terminate);
 			sem_post(philo->prog->sem_shared);
 			return (1);
 		}
@@ -67,6 +63,7 @@ static int	check_full(t_philo *philo)
 			return (0);
 		}
 	}
+	return (0);
 }
 
 
@@ -75,13 +72,9 @@ int	monitor_routine(t_philo *philo)
 	while (1)
 	{
 		if (check_dead(philo))
-		{
-			return (1);
-		}
+			return (PHILO_DEAD);
 		if (check_full(philo))
-		{
-			return (0);
-		}
+			return (PHILO_FULL);
 	}
 	return (0);
 }
@@ -90,22 +83,18 @@ static int	repeated_cycle(t_philo *philo)
 {
 	if (ft_pick_forks(philo))
 	{
-		sem_post(philo->prog->sem_activate);
+		if (sem_post(philo->prog->sem_activate) != 0)
+		{
+			return (0);
+		}
 		if (!ft_eat(philo))
-		{
-			end_process(philo);
 			return (0);
-		}
 		if (!ft_sleep_think(philo))
-		{
-			end_process(philo);
 			return (0);
-		}
 	}
 	else
 	{
 		sem_post(philo->prog->sem_activate);
-		end_process(philo);
 		return (0);
 	}
 	return (1);
@@ -127,13 +116,17 @@ void	*philo_routine(void *v_philo)
 		ft_usleep(10);
 	while (1)
 	{
-		sem_wait(philo->prog->sem_activate);
-		if (philo->prog->philo_count == 1)
-			continue ;
-		if (repeated_cycle(philo) == 0)
-		{
+		if (ft_check_terminate(philo))
 			break ;
+		if (sem_wait(philo->prog->sem_activate) != 0)
+			end_process_exit(philo , 1);
+		if (philo->prog->philo_count == 1)
+		{
+			sem_post(philo->prog->sem_activate);
+			continue ;
 		}
+		if (repeated_cycle(philo) == 0)
+			end_process_exit(philo , 1);
 	}
 	return (NULL);
 }

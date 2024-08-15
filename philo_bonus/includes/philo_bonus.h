@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/15 10:47:25 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 16:27:39 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 //--------------------------------------------------
 
 # define PHILO_FULL 42
+# define PHILO_DEAD -42
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
 
@@ -40,12 +41,14 @@ typedef pthread_t		t_thread;
 typedef struct s_philo
 {
 	int					id;
-	pid_t				pid;
 	int					meal_eaten;
 	int					philo_count;
+	int					terminate;
+	char				sem_name[80];
+	sem_t				*sem_terminate;
+	pid_t				pid;
 	size_t				last_meal_ms;
 	size_t				start_ms;
-	sem_t				sem_terminate;
 	struct s_program	*prog;
 }	t_philo;
 
@@ -62,7 +65,6 @@ typedef struct s_philo
  * @param sem_shared a shared semaphore to be used among general functions
  * @param sem_forks a semephore representing forks 
  * @param sem_activated a semaphore representing currently acivated philosophers
- * @param sem_end a zero semaphore used to notify the end of the program
  * 
  */
 typedef struct s_program
@@ -78,7 +80,6 @@ typedef struct s_program
 	sem_t		*sem_shared;
 	sem_t		*sem_forks;
 	sem_t		*sem_activate;
-	sem_t		*sem_end;
 	sem_t		*sem_print;
 }	t_program;
 
@@ -123,19 +124,21 @@ int		ft_sem_clean(t_program *prog);
 //	PROCESS
 //--------------------------------------------------
 int		create_process(t_program *prog);
-void	end_process(t_philo *philo);
+void	end_process_clean(t_philo *philo);
+int		end_process_exit(t_philo *philo, int exit_code);
 void	wait_process(t_program *prog);
 
 //--------------------------------------------------
 // ROUTINE
 //--------------------------------------------------
 
+int		ft_check_terminate(t_philo *philo);
 int		ft_pick_forks(t_philo *philo);
 int		ft_drop_forks(t_philo *philo);
 int		ft_eat(t_philo *philo);
 int		ft_sleep_think(t_philo *philo);
 void	*philo_routine(void *v_philo);
-int	monitor_routine(t_philo *philo);
+int		monitor_routine(t_philo *philo);
 
 //--------------------------------------------------
 // MAIN PROGRAM
