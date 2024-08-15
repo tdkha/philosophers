@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:26:19 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/15 16:39:57 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 17:11:21 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	create_process(t_program *prog)
 			pthread_join(thread, NULL);
 			end_process_clean(prog->philos[i]);
 			printf("EXIT CODE: %d\n", exit_code);
-			return (exit_code);
+			exit(exit_code);
 		}
 		++i;
 	}
@@ -87,7 +87,7 @@ void	wait_process(t_program *prog)
 	{
 		if (waitpid(-1, &status, 0) == -1)
 		{
-			error_msg("philo_bonus: wait_process: waitpid\n");
+			error_msg("philo_bonus: wait_process: waitpid \n");
 			ft_kill_processes(prog);
 		}
 		if (status == 1)

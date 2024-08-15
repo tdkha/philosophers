@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/15 16:27:39 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 16:42:36 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 //--------------------------------------------------
 
 # define PHILO_FULL 42
-# define PHILO_DEAD -42
+# define PHILO_DEAD 24
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
 
