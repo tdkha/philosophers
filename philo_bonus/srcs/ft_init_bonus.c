@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:37 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/14 23:38:43 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 10:48:06 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static int	ft_philos_init(t_program *prog)
 		prog->philos[i]->start_ms = get_current_time();
 		prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
 		prog->philos[i]->prog = prog;
+		sem_init(&prog->philos[i]->sem_terminate, 1, 1);
 	}
 	return (1);
 }

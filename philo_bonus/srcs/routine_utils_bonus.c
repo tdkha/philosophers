@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:59:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/15 08:43:57 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 10:15:53 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@ int	ft_pick_forks(t_philo *philo)
 {
 	if (sem_wait(philo->prog->sem_forks) != 0)
 		return (0);
-	philo_msg(philo, "has taken a fork");
+	if (philo_msg(philo, "has taken a fork") == 0)
+		return (0);
 	if (sem_wait(philo->prog->sem_forks) != 0)
 		return (0);
-	philo_msg(philo, "has taken a fork");
+	if (philo_msg(philo, "has taken a fork") == 0)
+		return (0);
 	return (1);
 }
 

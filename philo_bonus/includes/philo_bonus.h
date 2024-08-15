@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/15 09:03:11 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 10:47:25 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_philo
 	int					philo_count;
 	size_t				last_meal_ms;
 	size_t				start_ms;
-	sem_t				*sem_terminate;
+	sem_t				sem_terminate;
 	struct s_program	*prog;
 }	t_philo;
 

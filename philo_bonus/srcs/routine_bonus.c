@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/15 08:37:30 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 10:18:27 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,9 @@ void	*philo_routine(void *v_philo)
 		if (philo->prog->philo_count == 1)
 			continue ;
 		if (repeated_cycle(philo) == 0)
+		{
 			break ;
+		}
 	}
 	return (NULL);
 }
