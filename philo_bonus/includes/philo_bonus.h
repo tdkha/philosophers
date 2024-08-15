@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 12:03:14 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 09:03:11 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 // RE_DEFINITION
 //--------------------------------------------------
 
+# define PHILO_FULL 42
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
 
@@ -44,6 +45,7 @@ typedef struct s_philo
 	int					philo_count;
 	size_t				last_meal_ms;
 	size_t				start_ms;
+	sem_t				*sem_terminate;
 	struct s_program	*prog;
 }	t_philo;
 
@@ -115,6 +117,7 @@ void	write_msg(size_t time, int id, const char *msg);
 int		ft_init(int ac, char **av, t_program *prog);
 int		ft_free(t_program *prog);
 int		ft_philos_clean(t_program *prog);
+int		ft_sem_clean(t_program *prog);
 
 //--------------------------------------------------
 //	PROCESS
@@ -132,7 +135,7 @@ int		ft_drop_forks(t_philo *philo);
 int		ft_eat(t_philo *philo);
 int		ft_sleep_think(t_philo *philo);
 void	*philo_routine(void *v_philo);
-void	monitor_routine(t_philo *philo);
+int	monitor_routine(t_philo *philo);
 
 //--------------------------------------------------
 // MAIN PROGRAM

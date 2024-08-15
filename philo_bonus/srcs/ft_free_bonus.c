@@ -6,55 +6,25 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:23:47 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 18:07:40 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 09:05:05 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_bonus.h"
 
-static int	ft_sem_unlink(void)
+
+int	ft_sem_clean(t_program *prog)
 {
-	int	status;
-
-	status = sem_unlink("forks");
-	if (status != 0)
-		return (0);
-	status = sem_unlink("shared");
-	if (status != 0)
-		return (0);
-	status = sem_unlink("activate");
-	if (status != 0)
-		return (0);
-	status = sem_unlink("print");
-	if (status != 0)
-		return (0);
-	status = sem_unlink("end");
-	if (status != 0)
-		return (0);
-	return (1);
-}
-
-static int	ft_sem_destroy(t_program *prog)
-{
-	int	status;
-
-	status = sem_close(prog->sem_forks);
-	if (status != 0)
-	{
-		return (0);
-	}
-	status = sem_close(prog->sem_shared);
-	if (status != 0)
-		return (0);
-	status = sem_close(prog->sem_activate);
-	if (status != 0)
-		return (0);
-	status = sem_close(prog->sem_print);
-	if (status != 0)
-		return (0);
-	status = sem_close(prog->sem_end);
-	if (status != 0)
-		return (0);
+	sem_close(prog->sem_forks);
+	sem_close(prog->sem_shared);
+	sem_close(prog->sem_activate);
+	sem_close(prog->sem_print);
+	sem_close(prog->sem_end);
+	sem_unlink("forks");
+	sem_unlink("shared");
+	sem_unlink("activate");
+	sem_unlink("print");
+	sem_unlink("end");
 	return (1);
 }
 
@@ -82,6 +52,7 @@ int	ft_philos_clean(t_program *prog)
 /**
  * Description:
  * - sem_post in case the philosopher dies (lock until here)
+ * - Do not handle the failure of sem function here
  */
 int	ft_free(t_program *prog)
 {
@@ -89,14 +60,7 @@ int	ft_free(t_program *prog)
 	{
 		error_msg("philo_bonus: end_process: sem_post\n");
 	}
-	if (ft_sem_destroy(prog) == 0)
-		return (
-			error_msg_ret(
-				"philo_bonus: ft_sem_destroy: sem_close()\n", 0));
-	if (ft_sem_unlink() == 0)
-		return (
-			error_msg_ret(
-				"philo_bonus: ft_sem_unlink: sem_unlink()\n", 0));
+	ft_sem_clean(prog);
 	ft_philos_clean(prog);
 	free(prog);
 	return (1);

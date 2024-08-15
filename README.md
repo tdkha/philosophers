@@ -25,3 +25,14 @@
 5. Inconsistency in timestamp (bonus)
 
 6. The program still prints after a philosopher has died
+
+
+
+//----------------------------------------------
+// PHILO PROCESS
+//----------------------------------------------
+
+-> Philo routine thread
+	-> return (NULL)
+-> Monitoring Function
+	-> return (exit_code)

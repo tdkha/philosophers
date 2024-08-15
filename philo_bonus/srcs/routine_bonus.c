@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 12:05:30 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/15 08:37:30 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,45 @@ static int	check_dead(t_philo *philo)
 	}
 }
 
-void	monitor_routine(t_philo *philo)
+static int	check_full(t_philo *philo)
+{
+	size_t	time;
+
+	if (sem_wait(philo->prog->sem_shared) != 0)
+		return (0);
+	else
+	{
+		time = get_current_time();
+		if (time - philo->last_meal_ms >= philo->prog->time_die)
+		{
+			philo_msg(philo, "died");
+			end_process(philo);
+			sem_post(philo->prog->sem_shared);
+			return (1);
+		}
+		else
+		{
+			sem_post(philo->prog->sem_shared);
+			return (0);
+		}
+	}
+}
+
+
+int	monitor_routine(t_philo *philo)
 {
 	while (1)
 	{
 		if (check_dead(philo))
 		{
-			break ;
+			return (1);
+		}
+		if (check_full(philo))
+		{
+			return (0);
 		}
 	}
+	return (0);
 }
 
 static int	repeated_cycle(t_philo *philo)
@@ -84,7 +114,9 @@ static int	repeated_cycle(t_philo *philo)
 /**
  * Routine of a philosopher
  * 
- * @return exit_code [0, 1]
+ * Desciption:
+ * 
+ * - The routine runs in a while-true loop
  */
 void	*philo_routine(void *v_philo)
 {
