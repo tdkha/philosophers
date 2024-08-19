@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:17:27 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 12:36:18 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/19 18:05:42 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,67 +30,14 @@ int	ft_usleep(size_t milliseconds)
 	return (0);
 }
 
-static void	reverse_string(char *str, int length)
-{
-	int		start;
-	char	temp;
-
-	start = 0;
-	--length;
-	while (start < length)
-	{
-		temp = str[start];
-		str[start] = str[length];
-		str[length] = temp;
-		++start;
-		--length;
-	}
-}
-
-void	itoa(int n, char *str)
-{
-	int	i;
-	int	sign;
-
-	i = 0;
-	sign = n;
-	if (n == 0)
-	{
-		str[i++] = '0';
-		str[i] = '\0';
-		return ;
-	}
-	if (sign < 0)
-		n = -n;
-	while (n > 0)
-	{
-		str[i++] = (n % 10) + '0';
-		n /= 10;
-	}
-	if (sign < 0)
-	{
-		str[i++] = '-';
-	}
-	str[i] = '\0';
-	reverse_string(str, i);
-}
-
-void	ultoa(size_t n, char *str)
+void	ft_kill_processes(t_program *prog)
 {
 	int	i;
 
 	i = 0;
-	if (n == 0)
+	while (i < prog->philo_count)
 	{
-		str[i++] = '0';
-		str[i] = '\0';
-		return ;
+		kill(prog->philos[i]->pid, SIGKILL);
+		++i;
 	}
-	while (n > 0)
-	{
-		str[i++] = (n % 10) + '0';
-		n /= 10;
-	}
-	str[i] = '\0';
-	reverse_string(str, i);
 }

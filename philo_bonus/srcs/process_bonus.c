@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:26:19 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/15 17:11:21 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/19 17:56:29 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,28 @@
 void	end_process_clean(t_philo *philo)
 {
 	t_program	*prog;
+	int			i;
 
 	prog = philo->prog;
-	sem_unlink(philo->sem_name);
-	sem_close(philo->sem_terminate);
-	ft_philos_clean(prog);
+	i = 0;
+	if (prog->philos)
+	{
+		while (i < prog->philo_count)
+		{
+			if (!prog->philos[i])
+				break ;
+			sem_close(prog->sem_forks);
+			sem_close(prog->sem_shared);
+			sem_close(prog->sem_activate);
+			sem_close(prog->sem_print);
+			sem_close(prog->sem_terminate);
+			free(prog->philos[i]);
+			prog->philos[i] = NULL;
+			i++;
+		}
+		free(prog->philos);
+		prog->philos = NULL;
+	}
 	free(prog);
 }
 
@@ -28,8 +45,6 @@ int	end_process_exit(t_philo *philo, int exit_code)
 	t_program	*prog;
 
 	prog = philo->prog;
-	sem_unlink(philo->sem_name);
-	sem_close(philo->sem_terminate);
 	ft_philos_clean(prog);
 	free(prog);
 	exit (exit_code);
@@ -52,11 +67,11 @@ int	create_process(t_program *prog)
 			return (0);
 		else if (prog->philos[i]->pid == 0)
 		{
-			pthread_create(&thread, NULL, philo_routine, (void *) prog->philos[i]);
+			pthread_create(&thread, NULL,
+				philo_routine, (void *) prog->philos[i]);
 			exit_code = monitor_routine(prog->philos[i]);
 			pthread_join(thread, NULL);
 			end_process_clean(prog->philos[i]);
-			printf("EXIT CODE: %d\n", exit_code);
 			exit(exit_code);
 		}
 		++i;
@@ -64,16 +79,24 @@ int	create_process(t_program *prog)
 	return (1);
 }
 
-
-void	ft_kill_processes(t_program *prog)
+void	waiter_exitcode_handler(
+	t_program *prog,
+	int *status,
+	int *count_full)
 {
-	int	i;
+	int	exit_code;
 
-	i = 0;
-	while (i < prog->philo_count)
+	if (WIFEXITED(*status))
 	{
-		kill(prog->philos[i]->pid, SIGKILL);
-		++i;
+		exit_code = WEXITSTATUS(*status);
+		if (exit_code == 1)
+			error_msg("philo_bonus: system error\n");
+		else if (exit_code == PHILO_FULL)
+			++(*count_full);
+		if (exit_code == 1 || exit_code == PHILO_DEAD)
+		{
+			ft_kill_processes(prog);
+		}
 	}
 }
 
@@ -81,8 +104,11 @@ void	wait_process(t_program *prog)
 {
 	int	i;
 	int	status;
+	int	count_full;
 
 	i = 0;
+	status = 0;
+	count_full = 0;
 	while (i < prog->philo_count)
 	{
 		if (waitpid(-1, &status, 0) == -1)
@@ -90,20 +116,9 @@ void	wait_process(t_program *prog)
 			error_msg("philo_bonus: wait_process: waitpid \n");
 			ft_kill_processes(prog);
 		}
-		if (status == 1)
-		{
-			error_msg("philo_bonus: exit code is 1\n");
-			ft_kill_processes(prog);
-		}
-		else if (status == PHILO_FULL)
-		{
-			printf("All philosophers have eaten %d meals\n", prog->must_eat);
-		}
-		else if (status == PHILO_DEAD)
-		{
-			printf("All philosophers have eaten %d meals\n", prog->must_eat);
-			ft_kill_processes(prog);
-		}
+		waiter_exitcode_handler(prog, &status, &count_full);
 		++i;
 	}
+	if (count_full == prog->must_eat)
+		printf("All philosophers have eaten %d meals\n", count_full);
 }

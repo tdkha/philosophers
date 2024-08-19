@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:59:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/15 15:58:20 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/19 18:06:04 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	ft_check_terminate(t_philo *philo)
 {
-	sem_wait(philo->sem_terminate);
+	sem_wait(philo->prog->sem_terminate);
 	if (philo->terminate)
 	{
-		sem_post(philo->sem_terminate);
+		sem_post(philo->prog->sem_terminate);
 		return (1);
 	}
-	sem_post(philo->sem_terminate);
+	sem_post(philo->prog->sem_terminate);
 	return (0);
 }
 
@@ -48,14 +48,12 @@ int	ft_drop_forks(t_philo *philo)
 
 int	ft_eat(t_philo *philo)
 {
-	sem_wait(philo->prog->sem_shared);
-	philo->meal_eaten++;
-	philo->last_meal_ms = get_current_time();
-	sem_post(philo->prog->sem_shared);
-
 	philo_msg(philo, "is eating");
+	sem_wait(philo->prog->sem_shared);
+	philo->last_meal_ms = get_current_time();
+	philo->meal_eaten++;
+	sem_post(philo->prog->sem_shared);
 	ft_usleep(philo->prog->time_eat);
-	
 	if (!ft_drop_forks(philo))
 		return (0);
 	return (1);
@@ -66,6 +64,6 @@ int	ft_sleep_think(t_philo *philo)
 	philo_msg(philo, "is sleeping");
 	ft_usleep(philo->prog->time_sleep);
 	philo_msg(philo, "is thinking");
-	usleep(500);
+	ft_usleep(philo->prog->time_think);
 	return (1);
 }

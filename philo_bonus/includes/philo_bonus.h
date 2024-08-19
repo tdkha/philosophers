@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/15 16:42:36 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/19 17:57:25 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 # define PHILO_FULL 42
 # define PHILO_DEAD 24
+
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
 
@@ -44,8 +45,6 @@ typedef struct s_philo
 	int					meal_eaten;
 	int					philo_count;
 	int					terminate;
-	char				sem_name[80];
-	sem_t				*sem_terminate;
 	pid_t				pid;
 	size_t				last_meal_ms;
 	size_t				start_ms;
@@ -76,11 +75,13 @@ typedef struct s_program
 	size_t		time_die;
 	size_t		time_eat;
 	size_t		time_sleep;
+	size_t		time_think;
 	t_philo		**philos;
 	sem_t		*sem_shared;
 	sem_t		*sem_forks;
 	sem_t		*sem_activate;
 	sem_t		*sem_print;
+	sem_t		*sem_terminate;
 }	t_program;
 
 //--------------------------------------------------
@@ -99,8 +100,6 @@ void	*ft_calloc(size_t count, size_t size);
 
 size_t	get_current_time(void);
 int		ft_usleep(size_t milliseconds);
-void	itoa(int n, char *str);
-void	ultoa(size_t n, char *str);
 
 //--------------------------------------------------
 // PRINT MESSAGE
@@ -109,7 +108,6 @@ void	ultoa(size_t n, char *str);
 void	error_msg(char *str);
 int		error_msg_ret(char *str, int val);
 int		philo_msg(t_philo *philo, char *str);
-void	write_msg(size_t time, int id, const char *msg);
 
 //--------------------------------------------------
 // PROGRAM UTILS
@@ -118,7 +116,7 @@ void	write_msg(size_t time, int id, const char *msg);
 int		ft_init(int ac, char **av, t_program *prog);
 int		ft_free(t_program *prog);
 int		ft_philos_clean(t_program *prog);
-int		ft_sem_clean(t_program *prog);
+void	ft_kill_processes(t_program *prog);
 
 //--------------------------------------------------
 //	PROCESS
