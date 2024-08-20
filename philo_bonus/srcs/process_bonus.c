@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:26:19 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/19 17:56:29 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/20 08:20:35 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,9 @@ void	end_process_clean(t_philo *philo)
 	free(prog);
 }
 
-int	end_process_exit(t_philo *philo, int exit_code)
+int	end_process_exit(char *str, int exit_code)
 {
-	t_program	*prog;
-
-	prog = philo->prog;
-	ft_philos_clean(prog);
-	free(prog);
+	error_msg(str);
 	exit (exit_code);
 }
 
@@ -90,7 +86,7 @@ void	waiter_exitcode_handler(
 	{
 		exit_code = WEXITSTATUS(*status);
 		if (exit_code == 1)
-			error_msg("philo_bonus: system error\n");
+			error_msg("waiter_exitcode_handler: system error\n");
 		else if (exit_code == PHILO_FULL)
 			++(*count_full);
 		if (exit_code == 1 || exit_code == PHILO_DEAD)
@@ -113,7 +109,7 @@ void	wait_process(t_program *prog)
 	{
 		if (waitpid(-1, &status, 0) == -1)
 		{
-			error_msg("philo_bonus: wait_process: waitpid \n");
+			error_msg("wait_process: waitpid \n");
 			ft_kill_processes(prog);
 		}
 		waiter_exitcode_handler(prog, &status, &count_full);

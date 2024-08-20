@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:37 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/19 18:13:29 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/20 08:35:46 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static int	ft_philos_init(t_program *prog)
 	{
 		prog->philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		if (!prog->philos[i])
-			return (error_msg_ret(
-					"philo_bonus: ft_philos_init: malloc()\n", 0));
+			return (error_msg_ret("ft_philos_init: malloc\n", 0));
 		memset(prog->philos[i], 0, sizeof(t_philo));
 		prog->philos[i]->id = i;
 		prog->philos[i]->start_ms = get_current_time();
@@ -88,18 +87,6 @@ static void	reassign_time(t_program *prog)
 	if (prog->time_sleep > prog->time_die)
 	{
 		prog->time_sleep = prog->time_die + 6;
-	}
-	if (prog->time_die > (prog->time_eat + prog->time_sleep))
-	{
-		prog->time_think = prog->time_die - (prog->time_eat + prog->time_sleep);
-		prog->time_think = (prog->time_think + 1) / 2;
-	}
-	else
-	{
-		if (prog->time_eat < prog->time_sleep)
-			prog->time_think = prog->time_eat / 2;
-		else
-			prog->time_think = prog->time_sleep / 2;
 	}
 }
 

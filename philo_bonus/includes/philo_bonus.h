@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/19 17:57:25 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/20 08:35:51 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ typedef struct s_program
 	size_t		time_die;
 	size_t		time_eat;
 	size_t		time_sleep;
-	size_t		time_think;
 	t_philo		**philos;
 	sem_t		*sem_shared;
 	sem_t		*sem_forks;
@@ -123,7 +122,7 @@ void	ft_kill_processes(t_program *prog);
 //--------------------------------------------------
 int		create_process(t_program *prog);
 void	end_process_clean(t_philo *philo);
-int		end_process_exit(t_philo *philo, int exit_code);
+int		end_process_exit(char *str, int exit_code);
 void	wait_process(t_program *prog);
 
 //--------------------------------------------------

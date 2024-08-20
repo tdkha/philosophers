@@ -6,7 +6,7 @@
 #    By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 12:22:18 by ktieu             #+#    #+#              #
-#    Updated: 2024/08/13 17:21:39 by ktieu            ###   ########.fr        #
+#    Updated: 2024/08/19 19:47:17 by ktieu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ BONUS_FILES		=	$(BONUS_DIR)/libft_bonus.c \
 					$(BONUS_DIR)/ft_free_bonus.c \
 					$(BONUS_DIR)/process_bonus.c \
 					$(BONUS_DIR)/routine_utils_bonus.c \
+					$(BONUS_DIR)/monitor_bonus.c \
 					$(BONUS_DIR)/routine_bonus.c \
 					$(BONUS_DIR)/main_bonus.c
 
