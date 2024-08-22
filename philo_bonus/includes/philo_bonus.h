@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/20 08:35:51 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/22 17:39:56 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,21 @@ typedef pthread_t		t_thread;
 // STRUCT
 //--------------------------------------------------
 
+/**
+ * Struct for each philosopher
+ * @param sem_shared a shared semaphore to be used among general functions
+ * @param sem_terminate a semaphore to check for the <termination> variable
+ */
 typedef struct s_philo
 {
 	int					id;
 	int					meal_eaten;
 	int					philo_count;
 	int					terminate;
+	char				sem_ter_name[80];
+	char				sem_shared_name[80];
+	sem_t				*sem_terminate;
+	sem_t				*sem_shared;
 	pid_t				pid;
 	size_t				last_meal_ms;
 	size_t				start_ms;
@@ -63,7 +72,6 @@ typedef struct s_philo
  * @param philos array of philosophers
  * @param sem_shared a shared semaphore to be used among general functions
  * @param sem_forks a semephore representing forks 
- * @param sem_activated a semaphore representing currently acivated philosophers
  * 
  */
 typedef struct s_program
@@ -76,11 +84,8 @@ typedef struct s_program
 	size_t		time_eat;
 	size_t		time_sleep;
 	t_philo		**philos;
-	sem_t		*sem_shared;
 	sem_t		*sem_forks;
-	sem_t		*sem_activate;
 	sem_t		*sem_print;
-	sem_t		*sem_terminate;
 }	t_program;
 
 //--------------------------------------------------
@@ -99,7 +104,7 @@ void	*ft_calloc(size_t count, size_t size);
 
 size_t	get_current_time(void);
 int		ft_usleep(size_t milliseconds);
-
+int		ft_make_sem(t_philo *philo, int i);
 //--------------------------------------------------
 // PRINT MESSAGE
 //--------------------------------------------------

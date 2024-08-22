@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:47:02 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/20 08:46:07 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/22 17:41:56 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	ft_philo_terminate(t_philo *philo)
 {
-	if (sem_wait(philo->prog->sem_terminate) != 0)
+	if (sem_wait(philo->sem_terminate) != 0)
 		end_process_exit("ft_philo_terminate: sem_wait\n", 1);
 	philo->terminate = 1;
-	if (sem_post(philo->prog->sem_terminate) != 0)
+	if (sem_post(philo->sem_terminate) != 0)
 		end_process_exit("ft_philo_terminate: sem_post\n", 1);
 }
 
@@ -29,7 +29,7 @@ static int	check_dead(t_philo *philo)
 {
 	size_t	time;
 
-	if (sem_wait(philo->prog->sem_shared) != 0)
+	if (sem_wait(philo->sem_shared) != 0)
 		end_process_exit("check_dead: sem_wait\n", 1);
 	else
 	{
@@ -40,13 +40,13 @@ static int	check_dead(t_philo *philo)
 			if (sem_wait(philo->prog->sem_print) != 0)
 				end_process_exit("check_dead: sem_wait\n", 1);
 			printf("%zu %d died\n", time - philo->start_ms, philo->id + 1);
-			if (sem_post(philo->prog->sem_shared) != 0)
+			if (sem_post(philo->sem_shared) != 0)
 				end_process_exit("check_dead: sem_post\n", 1);
 			return (1);
 		}
 		else
 		{
-			if (sem_post(philo->prog->sem_shared) != 0)
+			if (sem_post(philo->sem_shared) != 0)
 				end_process_exit("check_dead: sem_post\n", 1);
 			return (0);
 		}
@@ -56,20 +56,20 @@ static int	check_dead(t_philo *philo)
 
 static int	check_full(t_philo *philo)
 {
-	if (sem_wait(philo->prog->sem_shared) != 0)
+	if (sem_wait(philo->sem_shared) != 0)
 		end_process_exit("check_full: sem_wait\n", 1);
 	else
 	{
 		if (philo->meal_eaten == philo->prog->must_eat)
 		{
 			ft_philo_terminate(philo);
-			if (sem_post(philo->prog->sem_shared) != 0)
+			if (sem_post(philo->sem_shared) != 0)
 				end_process_exit("check_full: sem_post\n", 1);
 			return (1);
 		}
 		else
 		{
-			if (sem_post(philo->prog->sem_shared) != 0)
+			if (sem_post(philo->sem_shared) != 0)
 				end_process_exit("check_full: sem_post\n", 1);
 			return (0);
 		}
@@ -79,6 +79,7 @@ static int	check_full(t_philo *philo)
 
 int	monitor_routine(t_philo *philo)
 {
+	ft_usleep(3000 + philo->start_ms - get_current_time());
 	while (1)
 	{
 		if (check_dead(philo))
@@ -86,5 +87,6 @@ int	monitor_routine(t_philo *philo)
 		if (check_full(philo))
 			return (PHILO_FULL);
 	}
+	printf("monitor_routine::end\n");
 	return (0);
 }

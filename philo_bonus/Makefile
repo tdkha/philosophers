@@ -6,7 +6,7 @@
 #    By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 12:22:18 by ktieu             #+#    #+#              #
-#    Updated: 2024/08/22 08:45:21 by ktieu            ###   ########.fr        #
+#    Updated: 2024/08/22 17:31:57 by ktieu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ CC				=	cc
 BONUS_DIR		=	./srcs/
 BONUS_FILES		=	$(BONUS_DIR)/libft_bonus.c \
 					$(BONUS_DIR)/utils_bonus.c \
+					$(BONUS_DIR)/ft_make_sem.c \
 					$(BONUS_DIR)/msg_bonus.c \
 					$(BONUS_DIR)/args_bonus.c \
 					$(BONUS_DIR)/ft_init_bonus.c \

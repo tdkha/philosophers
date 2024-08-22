@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:23:47 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/20 08:19:42 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/22 17:14:53 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,11 @@ static int	ft_sem_clean(t_program *prog)
 {
 	if (sem_close(prog->sem_forks))
 		return (error_msg_ret("ft_sem_clean: sem_close\n", 0));
-	if (sem_close(prog->sem_shared))
-		return (error_msg_ret("ft_sem_clean: sem_close\n", 0));
-	if (sem_close(prog->sem_activate))
-		return (error_msg_ret("ft_sem_clean: sem_close\n", 0));
 	if (sem_close(prog->sem_print))
-		return (error_msg_ret("ft_sem_clean: sem_close\n", 0));
-	if (sem_close(prog->sem_terminate))
 		return (error_msg_ret("ft_sem_clean: sem_close\n", 0));
 	if (sem_unlink("philo_forks"))
 		return (error_msg_ret("ft_sem_clean: sem_unlink\n", 0));
-	if (sem_unlink("philo_shared"))
-		return (error_msg_ret("ft_sem_clean: sem_unlink\n", 0));
-	if (sem_unlink("philo_activate"))
-		return (error_msg_ret("ft_sem_clean: sem_unlink\n", 0));
 	if (sem_unlink("philo_print"))
-		return (error_msg_ret("ft_sem_clean: sem_unlink\n", 0));
-	if (sem_unlink("philo_terminate"))
 		return (error_msg_ret("ft_sem_clean: sem_unlink\n", 0));
 	return (1);
 }
@@ -48,6 +36,10 @@ int	ft_philos_clean(t_program *prog)
 		{
 			if (!prog->philos[i])
 				break ;
+			sem_close(prog->philos[i]->sem_terminate);
+			sem_unlink(prog->philos[i]->sem_ter_name);
+			sem_close(prog->philos[i]->sem_shared);
+			sem_unlink(prog->philos[i]->sem_shared_name);
 			free(prog->philos[i]);
 			prog->philos[i] = NULL;
 			i++;

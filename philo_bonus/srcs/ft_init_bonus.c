@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:37 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/20 08:35:46 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/22 17:42:54 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@
 static int	ft_philos_init(t_program *prog)
 {
 	int		i;
+	size_t	start_ms;
 
 	i = -1;
+	start_ms = get_current_time();
 	while (++i < prog->philo_count)
 	{
 		prog->philos[i] = (t_philo *)malloc(sizeof(t_philo));
@@ -30,9 +32,11 @@ static int	ft_philos_init(t_program *prog)
 			return (error_msg_ret("ft_philos_init: malloc\n", 0));
 		memset(prog->philos[i], 0, sizeof(t_philo));
 		prog->philos[i]->id = i;
-		prog->philos[i]->start_ms = get_current_time();
+		prog->philos[i]->start_ms = start_ms;
 		prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
 		prog->philos[i]->prog = prog;
+		if (!ft_make_sem(prog->philos[i], i))
+			return (0);
 	}
 	return (1);
 }
@@ -50,10 +54,6 @@ static int	ft_philos_init(t_program *prog)
  */
 static int	ft_sem_init(t_program *prog)
 {
-	sem_unlink("philo_shared");
-	prog->sem_shared = sem_open("philo_shared", O_CREAT, 0644, 1);
-	if (prog->sem_shared == SEM_FAILED)
-		return (0);
 	sem_unlink("philo_print");
 	prog->sem_print = sem_open("philo_print", O_CREAT, 0644, 1);
 	if (prog->sem_print == SEM_FAILED)
@@ -61,16 +61,6 @@ static int	ft_sem_init(t_program *prog)
 	sem_unlink("philo_forks");
 	prog->sem_forks = sem_open("philo_forks", O_CREAT, 0644, prog->philo_count);
 	if (prog->sem_forks == SEM_FAILED)
-		return (0);
-	sem_unlink("philo_activate");
-	prog->sem_activate = sem_open(
-			"philo_activate", O_CREAT, 0644, (prog->philo_count + 1) / 2);
-	if (prog->sem_activate == SEM_FAILED)
-		return (0);
-	sem_unlink("philo_terminate");
-	prog->sem_terminate = sem_open(
-			"philo_terminate", O_CREAT, 0644, 1);
-	if (prog->sem_terminate == SEM_FAILED)
 		return (0);
 	return (1);
 }

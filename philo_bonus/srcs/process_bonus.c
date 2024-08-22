@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:26:19 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/22 08:55:29 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/22 17:38:07 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	end_process_clean(t_philo *philo)
 		{
 			if (!prog->philos[i])
 				break ;
+			sem_close(prog->philos[i]->sem_terminate);
+			sem_close(prog->philos[i]->sem_shared);
 			free(prog->philos[i]);
 			prog->philos[i] = NULL;
 			i++;
@@ -33,10 +35,7 @@ void	end_process_clean(t_philo *philo)
 		prog->philos = NULL;
 	}
 	sem_close(prog->sem_forks);
-	sem_close(prog->sem_shared);
-	sem_close(prog->sem_activate);
 	sem_close(prog->sem_print);
-	sem_close(prog->sem_terminate);
 	free(prog);
 }
 
