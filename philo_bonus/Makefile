@@ -6,13 +6,13 @@
 #    By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 12:22:18 by ktieu             #+#    #+#              #
-#    Updated: 2024/08/19 19:47:17 by ktieu            ###   ########.fr        #
+#    Updated: 2024/08/22 08:45:21 by ktieu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME_BONUS		=	philo_bonus
 
-CFLAGS			=	-g -O3 -pthread  -Wall -Wextra -Werror -I ./includes
+CFLAGS			=	-g -Wall -Wextra -pthread -O3 -I ./includes
 CC				=	cc
 
 BONUS_DIR		=	./srcs/
