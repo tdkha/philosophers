@@ -22,17 +22,10 @@
 
 	<2> Let the philo sleep after hitting the must_eat thresold before exiting
 
-5. Inconsistency in timestamp (bonus)
+5. Inconsistency in timestamp (bonus) ✅
 
-6. The program still prints after a philosopher has died
+6. The program still prints after a philosopher has died ✅
 
+7. In the monitor, we should add usleep(500) in the end of the loop to avoid error. Otherwise, we will have some processes using all the resources without giving them to others.  ✅
 
-
-//----------------------------------------------
-// PHILO PROCESS
-//----------------------------------------------
-
--> Philo routine thread
-	-> return (NULL)
--> Monitoring Function
-	-> return (exit_code)
+Exapple: ./philo_bonus 200 610 300 300 

@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 22:57:24 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 17:15:38 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/28 19:11:11 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static int	ft_monitor_cond(t_program *prog)
 		}
 		++i;
 		pthread_mutex_unlock(&prog->mt_lock);
+		usleep(500);
 	}
 	return (0);
 }
