@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/22 17:56:08 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/28 19:02:56 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,8 @@
 
 static int	repeated_cycle(t_philo *philo)
 {
-	if (ft_pick_forks(philo))
-	{
-		ft_eat(philo);
-		ft_sleep_think(philo);
-	}
-	else
-		return (0);
+	ft_eat(philo);
+	ft_sleep_think(philo);
 	return (1);
 }
 
@@ -36,11 +31,9 @@ void	*philo_routine(void *v_philo)
 	t_philo	*philo;	
 
 	philo = (t_philo *) v_philo;
-	philo->start_ms += 3000;
-	philo->last_meal_ms = philo->start_ms;
 	ft_usleep(philo->start_ms - get_current_time());
 	if (philo->id % 2 != 0)
-		ft_usleep(10);
+		ft_usleep(philo->prog->time_eat / 2);
 	while (1)
 	{
 		if (ft_check_terminate(philo))

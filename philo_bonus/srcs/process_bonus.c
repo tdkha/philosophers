@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:26:19 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/22 17:38:07 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/28 19:08:20 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ void	wait_process(t_program *prog)
 		waiter_exitcode_handler(prog, &status, &count_full);
 		++i;
 	}
-	if (count_full == prog->must_eat)
+	if (count_full == prog->philo_count)
 		printf("All philosophers have eaten %d meals\n", count_full);
 }

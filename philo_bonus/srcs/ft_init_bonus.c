@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:37 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/22 17:42:54 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/28 19:03:14 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_philos_init(t_program *prog)
 	size_t	start_ms;
 
 	i = -1;
-	start_ms = get_current_time();
+	start_ms = get_current_time() + 5000;
 	while (++i < prog->philo_count)
 	{
 		prog->philos[i] = (t_philo *)malloc(sizeof(t_philo));
@@ -33,7 +33,7 @@ static int	ft_philos_init(t_program *prog)
 		memset(prog->philos[i], 0, sizeof(t_philo));
 		prog->philos[i]->id = i;
 		prog->philos[i]->start_ms = start_ms;
-		prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
+		prog->philos[i]->last_meal_ms = start_ms;
 		prog->philos[i]->prog = prog;
 		if (!ft_make_sem(prog->philos[i], i))
 			return (0);

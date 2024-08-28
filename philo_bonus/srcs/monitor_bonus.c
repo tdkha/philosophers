@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:47:02 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/22 17:41:56 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/28 19:03:02 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,14 @@ static int	check_full(t_philo *philo)
 
 int	monitor_routine(t_philo *philo)
 {
-	ft_usleep(3000 + philo->start_ms - get_current_time());
+	ft_usleep(philo->start_ms - get_current_time());
 	while (1)
 	{
 		if (check_dead(philo))
 			return (PHILO_DEAD);
 		if (check_full(philo))
 			return (PHILO_FULL);
+		usleep(500);
 	}
-	printf("monitor_routine::end\n");
 	return (0);
 }

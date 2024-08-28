@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/22 17:39:56 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/08/28 18:55:22 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ void	wait_process(t_program *prog);
 
 int		ft_check_terminate(t_philo *philo);
 int		ft_pick_forks(t_philo *philo);
-int		ft_drop_forks(t_philo *philo);
 int		ft_eat(t_philo *philo);
 int		ft_sleep_think(t_philo *philo);
 void	*philo_routine(void *v_philo);
