@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:16:37 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/28 19:03:14 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/09/05 11:17:12 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_philos_init(t_program *prog)
 	size_t	start_ms;
 
 	i = -1;
-	start_ms = get_current_time() + 5000;
+	start_ms = get_current_time() + 3000;
 	while (++i < prog->philo_count)
 	{
 		prog->philos[i] = (t_philo *)malloc(sizeof(t_philo));

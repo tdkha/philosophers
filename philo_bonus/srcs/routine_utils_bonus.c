@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:59:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/28 19:01:49 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/09/05 11:13:21 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ int	ft_sleep_think(t_philo *philo)
 	philo_msg(philo, "is sleeping");
 	ft_usleep(philo->prog->time_sleep);
 	philo_msg(philo, "is thinking");
+	usleep(1000);
 	return (1);
 }
