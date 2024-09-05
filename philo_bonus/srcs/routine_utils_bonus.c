@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:59:01 by ktieu             #+#    #+#             */
-/*   Updated: 2024/09/05 11:13:21 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/09/05 13:52:45 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	ft_eat(t_philo *philo)
 		error_msg("ft_eat: sem_post\n");
 		exit(1);
 	}
-	ft_usleep(philo->prog->time_eat);
+	ft_usleep(philo->prog->time_eat, philo);
 	ft_drop_forks(philo);
 	return (1);
 }
@@ -98,7 +98,7 @@ int	ft_eat(t_philo *philo)
 int	ft_sleep_think(t_philo *philo)
 {
 	philo_msg(philo, "is sleeping");
-	ft_usleep(philo->prog->time_sleep);
+	ft_usleep(philo->prog->time_sleep, philo);
 	philo_msg(philo, "is thinking");
 	usleep(1000);
 	return (1);

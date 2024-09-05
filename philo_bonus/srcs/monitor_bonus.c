@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:47:02 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/28 19:03:02 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/09/05 13:52:23 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	check_full(t_philo *philo)
 
 int	monitor_routine(t_philo *philo)
 {
-	ft_usleep(philo->start_ms - get_current_time());
+	ft_usleep(philo->start_ms - get_current_time(), NULL);
 	while (1)
 	{
 		if (check_dead(philo))
