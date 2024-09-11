@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:49:09 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 16:58:20 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/09/11 17:21:02 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static void	assign(t_program *prog, int i)
 	prog->philos[i]->mt_lock = &prog->mt_lock;
 	prog->philos[i]->mt_print = &prog->mt_print;
 	prog->philos[i]->mt_terminate = &prog->mt_terminate;
-	prog->philos[i]->start_ms = get_current_time();
-	prog->philos[i]->last_meal_ms = prog->philos[i]->start_ms;
 	prog->philos[i]->time_die = prog->time_die;
 	prog->philos[i]->time_sleep = prog->time_sleep;
 	prog->philos[i]->time_eat = prog->time_eat;
@@ -46,17 +44,21 @@ static void	assign(t_program *prog, int i)
  */
 static int	ft_philos_init(t_program *prog)
 {
-	int	i;
+	size_t	start_ms;
+	int		i;
 
 	i = -1;
 	while (++i < prog->philo_count)
 	{
 		prog->philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		if (!prog->philos[i])
-			return (error_msg_ret("Failed to malloc type (t_philo *)\n",
-					&prog->mt_lock, 0));
+			return (error_msg_ret("Failed to malloc type (t_philo *)\n", 0));
 		memset(prog->philos[i], 0, sizeof(t_philo));
 		assign(prog, i);
+		start_ms = get_current_time() + 3000;
+		prog->start_ms = start_ms;
+		prog->philos[i]->start_ms = start_ms;
+		prog->philos[i]->last_meal_ms = start_ms;
 	}
 	return (1);
 }
@@ -74,19 +76,15 @@ static int	ft_mutexes_init(t_program *prog)
 
 	i = 0;
 	if (pthread_mutex_init(&prog->mt_lock, NULL))
-		return (error_msg_ret("Failed to init mutex\n",
-				&prog->mt_lock, 0));
+		return (error_msg_ret("Failed to init mutex\n", 0));
 	if (pthread_mutex_init(&prog->mt_print, NULL))
-		return (error_msg_ret("Failed to init mutex\n",
-				&prog->mt_lock, 0));
+		return (error_msg_ret("Failed to init mutex\n", 0));
 	if (pthread_mutex_init(&prog->mt_terminate, NULL))
-		return (error_msg_ret("Failed to init mutex\n",
-				&prog->mt_lock, 0));
+		return (error_msg_ret("Failed to init mutex\n", 0));
 	while (i < prog->philo_count)
 	{
 		if (pthread_mutex_init(&prog->mt_forks[i], NULL))
-			return (error_msg_ret("Failed to init mutex\n",
-					&prog->mt_lock, 0));
+			return (error_msg_ret("Failed to init mutex\n", 0));
 		++i;
 	}
 	return (1);

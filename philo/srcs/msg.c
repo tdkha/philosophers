@@ -6,30 +6,35 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:49:06 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 17:09:03 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/09/11 17:21:13 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	error_msg(char *str, t_mutex *mt_lock)
+void	error_msg(char *str)
 {
 	int	len;
 
-	pthread_mutex_lock(mt_lock);
 	len = (int) ft_strlen(str);
 	(void)!write(2, str, len);
-	pthread_mutex_unlock(mt_lock);
 }
 
-int	error_msg_ret(char *str, t_mutex *mt_lock, int return_val)
+void	error_msg_exit(char *str, int exitcode)
 {
 	int	len;
 
-	pthread_mutex_lock(mt_lock);
 	len = (int) ft_strlen(str);
 	(void)!write(2, str, len);
-	pthread_mutex_unlock(mt_lock);
+	exit(exitcode);
+}
+
+int	error_msg_ret(char *str, int return_val)
+{
+	int	len;
+
+	len = (int) ft_strlen(str);
+	(void)!write(2, str, len);
 	return (return_val);
 }
 
@@ -47,12 +52,13 @@ int	philo_msg(t_philo *philo, char *str)
 {
 	size_t	time;
 
+	pthread_mutex_lock(philo->mt_print);
 	if (check_dead(philo))
 	{
-		return (0);
+		pthread_mutex_unlock(philo->mt_print);
+		return (1);
 	}
 	time = get_current_time() - philo->start_ms;
-	pthread_mutex_lock(philo->mt_print);
 	printf("%zu %d %s\n", time, philo->id + 1, str);
 	pthread_mutex_unlock(philo->mt_print);
 	return (1);

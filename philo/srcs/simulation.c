@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 22:57:24 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/28 19:11:11 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/09/11 17:20:44 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ static int	ft_create_threads(t_program *prog)
 				philo_routine, (void *)prog->philos[i]) != 0)
 		{
 			return (
-				error_msg_ret(
-					"Failed to CREATE monitor thread\n",
-					&prog->mt_lock, 0));
+				error_msg_ret("Failed to CREATE monitor thread\n", 0));
 		}
 		++i;
 	}
@@ -43,9 +41,7 @@ static int	ft_join_threads(t_program *prog)
 		if (pthread_join(prog->philos[i]->pth, NULL) != 0)
 		{
 			return (
-				error_msg_ret(
-					"Failed to JOIN philo thread\n",
-					&prog->mt_lock, 0));
+				error_msg_ret("Failed to JOIN philo thread\n", 0));
 		}
 		++i;
 	}
@@ -80,6 +76,7 @@ static int	ft_monitor_cond(t_program *prog)
 
 static void	ft_monitor(t_program *prog)
 {
+	ft_usleep(prog->start_ms - get_current_time(), NULL);
 	while (1)
 	{
 		if (ft_monitor_cond(prog))

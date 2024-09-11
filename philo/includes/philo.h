@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:46:05 by ktieu             #+#    #+#             */
-/*   Updated: 2024/08/13 17:15:25 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/09/11 17:18:01 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_program
 	size_t		time_die;
 	size_t		time_eat;
 	size_t		time_sleep;
+	size_t		start_ms;
 	t_mutex		mt_lock;
 	t_mutex		mt_print;
 	t_mutex		mt_terminate;
@@ -87,7 +88,7 @@ void	*ft_calloc(size_t count, size_t size);
 //--------------------------------------------------
 
 size_t	get_current_time(void);
-int		ft_usleep(size_t milliseconds);
+void	ft_usleep(size_t milliseconds, t_philo *philo);
 int		check_dead(t_philo *philo);
 void	print_end(t_program *prog, t_philo *philo);
 
@@ -95,8 +96,9 @@ void	print_end(t_program *prog, t_philo *philo);
 // PRINT MESSAGE
 //--------------------------------------------------
 
-void	error_msg(char *str, t_mutex *mt_lock);
-int		error_msg_ret(char *str, t_mutex *mt_lock, int return_val);
+void	error_msg(char *str);
+void	error_msg_exit(char *str, int exitcode);
+int		error_msg_ret(char *str, int return_val);
 int		philo_msg(t_philo *philo, char *str);
 
 //--------------------------------------------------
