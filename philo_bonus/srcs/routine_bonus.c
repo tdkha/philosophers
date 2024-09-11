@@ -6,11 +6,26 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/09/05 13:52:30 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/09/11 17:37:39 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_bonus.h"
+
+static void	ft_one_philo_routine(t_philo *philo)
+{
+	if (sem_wait(philo->prog->sem_forks) != 0)
+	{
+		error_msg("ft_one_philo_routine: sem_wait\n");
+		exit(1);
+	}
+	philo_msg(philo, "has taken a fork");
+	if (sem_post(philo->prog->sem_forks) != 0)
+	{
+		error_msg("ft_one_philo_routine: sem_post\n");
+		exit(1);
+	}
+}
 
 /**
  * Routine of a philosopher
@@ -32,7 +47,10 @@ void	*philo_routine(void *v_philo)
 		if (ft_check_terminate(philo))
 			break ;
 		if (philo->prog->philo_count == 1)
-			continue ;
+		{
+			ft_one_philo_routine(philo);
+			break ;
+		}
 		ft_eat(philo);
 		ft_sleep_think(philo);
 	}
