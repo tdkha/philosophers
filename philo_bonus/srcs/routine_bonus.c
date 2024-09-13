@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:37:59 by ktieu             #+#    #+#             */
-/*   Updated: 2024/09/11 17:37:39 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/09/13 16:28:21 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*philo_routine(void *v_philo)
 	philo = (t_philo *) v_philo;
 	ft_usleep(philo->start_ms - get_current_time(), NULL);
 	if (philo->id % 2 != 0)
-		ft_usleep(philo->prog->time_eat / 2, NULL);
+		ft_usleep(philo->prog->time_eat / 2, philo);
 	while (1)
 	{
 		if (ft_check_terminate(philo))

@@ -6,7 +6,7 @@
 /*   By: ktieu <ktieu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:22:53 by ktieu             #+#    #+#             */
-/*   Updated: 2024/09/11 17:22:18 by ktieu            ###   ########.fr       */
+/*   Updated: 2024/09/13 16:20:48 by ktieu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void	ft_usleep(size_t milliseconds, t_philo *philo)
 		if (philo)
 		{
 			if (check_dead(philo))
-				return ;
+			{
+				break ;
+			}
 		}
 		usleep(1000);
 	}
